@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TotalLoginActivity">
+
+    <TextView
+        android:id="@+id/tvTLFindPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="64dp"
+        android:text="비밀번호 찾기"
+        app:layout_constraintStart_toEndOf="@+id/view3"
+        app:layout_constraintTop_toBottomOf="@+id/ivTLNaver" />
+
+    <TextView
+        android:id="@+id/tvTLEmailLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="17dp"
+        android:text="이메일로 회원가입"
+        app:layout_constraintEnd_toStartOf="@+id/view3"
+        app:layout_constraintTop_toBottomOf="@+id/ivTLNaver" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:text="또는"
+        android:textColor="#D9D9D9"
+        app:layout_constraintEnd_toStartOf="@+id/view"
+        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/btnTLEmailLogin" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="새싹을 틔우기 위한 &#xA;씨앗의 여정"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="156dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/main_logo" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTLKakao"
+        android:layout_width="273dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="304dp"
+        android:background="@drawable/drawable_round_button_background"
+
+        android:drawableLeft="@drawable/kakao_icon"
+        android:paddingLeft="30dp"
+        android:text="카카오로 시작하기"
+        app:layout_constraintDimensionRatio="45"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTLEmailLogin"
+        android:layout_width="273dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="11dp"
+        android:background="@drawable/drawable_round_button_background_black"
+        android:drawableLeft="@drawable/drawable_left_image_email_login"
+        android:paddingLeft="35dp"
+        android:text="이메일로 로그인하기"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTLKakao" />
+
+    <View
+
+        android:id="@+id/view2"
+        android:layout_width="73dp"
+
+
+        android:layout_height="2dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="46dp"
+        android:background="#D9D9D9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTLEmailLogin" />
+
+    <View
+
+        android:id="@+id/view3"
+        android:layout_width="2dp"
+
+
+        android:layout_height="20dp"
+        android:layout_marginTop="62dp"
+        android:background="#D9D9D9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivTLGoogle" />
+
+    <View
+
+        android:id="@+id/view"
+        android:layout_width="73dp"
+
+
+        android:layout_height="2dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="64dp"
+        android:background="#D9D9D9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTLEmailLogin" />
+
+    <ImageView
+        android:id="@+id/ivTLNaver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:srcCompat="@drawable/naver_icon" />
+
+    <ImageView
+        android:id="@+id/ivTLGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:srcCompat="@drawable/google_icon" />
+
+    <ImageView
+        android:id="@+id/ivTLfacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:srcCompat="@drawable/meta_icon" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

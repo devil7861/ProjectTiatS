@@ -1,0 +1,927 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 일반 레이아웃 -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tvFMCurrentTimne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="210dp"
+            android:text="11:00am"
+            android:textSize="45dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/sun" />
+
+        <TextView
+            android:id="@+id/tvFMRainType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="RainType : 맑음"
+            app:layout_constraintEnd_toEndOf="@+id/tvFMcurrentSky"
+            app:layout_constraintTop_toBottomOf="@+id/tvFMcurrentSky" />
+
+        <TextView
+            android:id="@+id/tvFMcurrentSky"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="매우 맑음"
+            app:layout_constraintEnd_toEndOf="@+id/btnFMHamburger2"
+            app:layout_constraintStart_toStartOf="@+id/tvFMStandardTime"
+            app:layout_constraintTop_toTopOf="@+id/tvFMCurrentAddress" />
+
+        <TextView
+            android:id="@+id/tvFMCurrentAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="116dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFMCurrentDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="94dp"
+            android:text="2023.08.04"
+            android:textColor="#D9D9D9"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView55"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="220dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/empty_plant" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="265dp"
+            android:background="@drawable/drawable_pot"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="82dp"
+                android:text="화분이 비어있어요!"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView40"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내 식물을 등록해주세요"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnFMPlantRegister"
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="49dp"
+                android:background="@drawable/drawable_login_round_button"
+                android:text="내화분 등록하기"
+                android:textColor="#639447"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/imageView56"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/search" />
+
+        <ImageView
+            android:id="@+id/btnFMHamburger2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/hamburger_menu" />
+
+        <ImageView
+            android:id="@+id/btnFMHamburger_dummy2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/hamburger_menu" />
+
+        <TextView
+            android:id="@+id/tvFMCurrentTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="℃"
+            android:textSize="26dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/tvFMCurrentAddress"
+            app:layout_constraintTop_toBottomOf="@+id/tvFMCurrentAddress" />
+
+        <ImageView
+            android:id="@+id/ivFMSkyIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvFMcurrentSky"
+            app:layout_constraintEnd_toStartOf="@+id/tvFMStandardTime"
+            app:layout_constraintTop_toTopOf="@+id/tvFMStandardTime"
+            app:srcCompat="@drawable/weather_sunny" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/arrow_icon"
+            android:rotation="180"
+            android:textSize="48dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toStartOf="@+id/imageView55"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFMCurrentTimne" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/arrow_icon"
+            android:textSize="48dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView55"
+            app:layout_constraintTop_toBottomOf="@+id/tvFMCurrentTimne" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFMHamburger"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/hamburger_menu"
+            app:layout_constraintBottom_toBottomOf="@+id/btnFMHamburger2"
+            app:layout_constraintEnd_toEndOf="@+id/btnFMHamburger2"
+            app:layout_constraintStart_toStartOf="@+id/btnFMHamburger2"
+            app:layout_constraintTop_toTopOf="@+id/btnFMHamburger2" />
+
+        <TextView
+            android:id="@+id/tvFMHumid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="습도 : 없음"
+            app:layout_constraintEnd_toEndOf="@+id/tvFMRainType"
+            app:layout_constraintTop_toBottomOf="@+id/tvFMRainType" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFMRefresh"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:background="@drawable/drawable_round_rectangle_stroke_solid"
+            android:text="새로고침"
+            android:textSize="12dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/tvFMCurrentTemp"
+            app:layout_constraintTop_toBottomOf="@+id/tvFMCurrentTemp" />
+
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="TextView"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFMStandardTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="00:00기준"
+            app:layout_constraintBottom_toTopOf="@+id/tvFMcurrentSky"
+            app:layout_constraintEnd_toEndOf="@+id/btnFMHamburger2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        android:visibility="gone" />
+
+    <!-- 슬라이드 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/slidingPage01"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivCancel"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:rotation="180"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/back_arrow_large" />
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/bell_icon_black" />
+
+            <TextView
+                android:id="@+id/tvUserId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/drawable_round_edittext"
+                android:includeFontPadding="false"
+                android:paddingLeft="55dp"
+                android:paddingTop="7dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="7dp"
+                android:text="example@gmail.com"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvUserId"
+                app:layout_constraintStart_toStartOf="@+id/tvUserId"
+                app:layout_constraintTop_toTopOf="@+id/tvUserId"
+                app:srcCompat="@drawable/circle" />
+
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView14"
+                app:layout_constraintEnd_toEndOf="@+id/imageView14"
+                app:layout_constraintStart_toStartOf="@+id/imageView14"
+                app:layout_constraintTop_toTopOf="@+id/imageView14"
+                app:srcCompat="@drawable/profile" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:text="나의 활동"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUserId" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="280dp"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_quickmenu_area"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView20">
+
+                <TextView
+                    android:id="@+id/llFMLinearLayoutMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="나의 활동을 확인하기위해서는 로그인을 해야합니다"
+                    android:textAlignment="center"
+                    android:textColor="#558B2F"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/llFMLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView21"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="키우는 식물"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView22"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 개"
+                            android:textColor="#4CAF50"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llFMMyBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="작성한 글"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvFMCountMyBoard"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0 개"
+                            android:textColor="#4CAF50"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView25"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="전문가 인증"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView26"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="인증전"
+                            android:textColor="#4CAF50"
+                            android:textSize="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"
+                android:layout_marginTop="15dp"
+                android:background="#807F7F"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/loFMPlantManagement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/imageView40"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/circle" />
+
+                        <ImageView
+                            android:id="@+id/imageView19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView40"
+                            app:layout_constraintEnd_toEndOf="@+id/imageView40"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/schedule" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/textView31"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="식물관리"
+                        android:textColor="#000000"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view7"
+                    android:layout_width="2dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:background="#EFECE8" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/loFMCommunity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/imageView41"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/circle" />
+
+                        <ImageView
+                            android:id="@+id/imageView20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView41"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/community" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/textView33"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="커뮤니티"
+                        android:textColor="#000000"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view8"
+                    android:layout_width="2dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:background="#EFECE8" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/imageView15"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/circle" />
+
+                        <ImageView
+                            android:id="@+id/imageView21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/imageView15"
+                            app:layout_constraintStart_toStartOf="@+id/imageView15"
+                            app:layout_constraintTop_toTopOf="@+id/imageView15"
+                            app:srcCompat="@drawable/store" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/textView35"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="스토어"
+                        android:textColor="#000000"
+                        android:textSize="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view6"
+                android:layout_width="250dp"
+                android:layout_height="2dp"
+                android:background="#EFECE8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="고객센터"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+            <TextView
+                android:id="@+id/tvSettingTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="환경설정"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+            <TextView
+                android:id="@+id/tvFMLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="로그아웃"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSettingTest" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/slidingPage02"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:background="@drawable/drawable_register_menu"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/drawable_register_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnFMPlantRegisterCancel"
+                android:layout_width="125dp"
+                android:layout_height="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_button_background_black"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="종류 더 보기"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView16" />
+
+            <ImageView
+                android:id="@+id/imageView16"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button16"
+                app:srcCompat="@drawable/drawable_circle_gray" />
+
+            <ImageView
+                android:id="@+id/imageView26"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="7dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+                app:layout_constraintStart_toEndOf="@+id/imageView16"
+                app:srcCompat="@drawable/drawable_circle_gray" />
+
+            <ImageView
+                android:id="@+id/imageView25"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="7dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView16"
+                app:layout_constraintEnd_toStartOf="@+id/imageView16"
+                app:srcCompat="@drawable/drawable_circle_black" />
+
+            <EditText
+                android:id="@+id/editTextText6"
+                android:layout_width="285dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/drawable_round_edittext"
+                android:ems="10"
+                android:hint="내 화분 검색하기"
+                android:inputType="text"
+                android:paddingLeft="50dp"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="17dp"
+                app:layout_constraintBottom_toBottomOf="@+id/editTextText6"
+                app:layout_constraintEnd_toEndOf="@+id/editTextText6"
+                app:layout_constraintTop_toTopOf="@+id/editTextText6"
+                app:srcCompat="@drawable/search_large" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSelectPlant"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="69dp"
+                android:layout_marginTop="145dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_round_rectangle_message_onselect"
+                android:text="다육 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/button8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button8"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="145dp"
+                android:layout_marginEnd="69dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnSelectPlant"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button11"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintStart_toStartOf="@+id/btnSelectPlant"
+                app:layout_constraintTop_toBottomOf="@+id/btnSelectPlant" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button13"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintStart_toStartOf="@+id/button11"
+                app:layout_constraintTop_toBottomOf="@+id/button11" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button14"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintStart_toStartOf="@+id/button13"
+                app:layout_constraintTop_toBottomOf="@+id/button13" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button16"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintStart_toStartOf="@+id/button14"
+                app:layout_constraintTop_toBottomOf="@+id/button14" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button12"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintEnd_toEndOf="@+id/button8"
+                app:layout_constraintTop_toBottomOf="@+id/btnSelectPlant" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button17"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintEnd_toEndOf="@+id/button12"
+                app:layout_constraintTop_toBottomOf="@+id/button12" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button18"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintEnd_toEndOf="@+id/button17"
+                app:layout_constraintTop_toBottomOf="@+id/button17" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button19"
+                android:layout_width="125dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/drawable_round_rectangle_message"
+                android:text="관엽 식물"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintEnd_toEndOf="@+id/button18"
+                app:layout_constraintTop_toBottomOf="@+id/button18" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <!-- 열기/닫기 버튼 레이아웃 -->
+
+</FrameLayout>
+

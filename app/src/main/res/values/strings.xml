@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">PTS</string>
+    <string name="some_id">새싹을 틔우기 위한 씨앗의 여정</string>
+    <string name="find_pw"> <u>비밀번호찾기</u></string>
+    <string name="welcom_name"> <u> 문성민 </u>님, 환영합니다!</string>
+    <string name="detail_content"><b>영화 ‘레옹’의 주인공이 소중하게 여기던 화분</b>식물로, 은빛과 녹색이 잘 배합되어 고급스러운 느낌을 전해준다. 밝은 빛을 공급하면 가장자리와 주맥의 붉은 빛이 선명해진다. 추위에 약하므로 겨울철 실내온도를 잘 관리하며 수경재배로 재배가 가능하다.</string>
+    <string name="attachment_message"><u>파일 선택</u></string>
+
+    <string name="resign_message1"><font color='red'><b><u>회원 탈퇴 시 앱 접속 및 이용이 제한</u></b></font>되므로 신중하게 선택해 주시기 바랍니다.</string>
+    <string name="resign_message2">탈퇴 시 계정 내 구매한 모든 상품 및 화폐가 삭제되므로 탈퇴 전 <font color='red'><b><u>잔여 화폐 환불</u></b></font>을 신청해 주시기 바랍니다.</string>
+    <string name="resign_message3">회원 탈퇴를 하더라도 사용 중인 사용자명을 즉시 재생성하실 수 없으며 <font color='red'><b><u>최대 10일 정도 기간이 소요</u></b></font>될 수 있습니다.</string>
+    <string name="sample_message"><b>잘자라다오</b> 새로운 싹이 생겼다!!!</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="viewpager2_banner">%1$d / %2$d 모두보기</string>
+</resources>
+
+

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="115dp"
+        android:text="회원가입"
+        android:textSize="26dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="타앗계정 하나로\n 다양한 서비스를 편리하게 이용해 보세요."
+        android:textAlignment="center"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="35dp"
+        android:text="이름"
+        android:textColor="#4CAF50"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/etURName"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <EditText
+        android:id="@+id/etURName"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/drawable_round_edittext"
+        android:hint="한글, 영문, 숫자(특수문자 제외)"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="아이디"
+        android:textColor="#4CAF50"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/etURName"
+        app:layout_constraintTop_toBottomOf="@+id/etURName" />
+
+    <EditText
+        android:id="@+id/etURId"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/drawable_round_edittext"
+        android:ems="10"
+        android:hint="이메일형식으로 입력해주세요"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        android:paddingRight="90dp"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="비밀번호"
+        android:textColor="#4CAF50"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/etURPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etURId" />
+
+    <EditText
+        android:id="@+id/etURPassword"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/drawable_round_edittext"
+        android:ems="10"
+        android:hint="띄어쓰기 없는 영문, 숫자, 특수문자 6~20자"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="비밀번호 확인"
+        android:textColor="#4CAF50"
+        android:textSize="12dp"
+        app:layout_constraintStart_toStartOf="@+id/etURPassword2"
+        app:layout_constraintTop_toBottomOf="@+id/etURPassword" />
+
+    <EditText
+        android:id="@+id/etURPassword2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/drawable_round_edittext"
+        android:hint="비밀번호를 한번더 입력해주세요"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRegisterCheck"
+        android:layout_width="70dp"
+        android:layout_height="48dp"
+        android:background="@drawable/drawable_id_check_round_button"
+        android:text="중복확인"
+        android:textColor="#639447"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/etURId"
+        app:layout_constraintTop_toTopOf="@+id/etURId" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnURRegister"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="325dp"
+        android:background="@drawable/drawable_login_round_button"
+        android:text="회원가입"
+        android:textColor="#639447"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etURName" />
+
+    <LinearLayout
+        android:id="@+id/layoutURGoback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/back_arrow" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="로그인"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvURIdValidation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="※ 사용할수 있는 아이디입니다."
+        android:textColor="#43A047"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/etURId"
+        app:layout_constraintTop_toBottomOf="@+id/etURId" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
