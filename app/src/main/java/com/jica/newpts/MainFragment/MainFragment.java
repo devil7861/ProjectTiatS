@@ -92,7 +92,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     // 날씨 및 GPS 관련 변수
     private String base_date, base_time;
     private Point curPoint;
-    private GpsTracker gpsTracker;
 
     // GPS 및 권한 관련 상수 및 변수
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -491,22 +490,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     for (int i = 0; i <= (weatherNumber - 1); i++) {
                         weatherArr[i].setFcstTime(it.get(i).fcstTime);
                     }
-                    // GPS 위치 가져오기
-                    gpsTracker = new GpsTracker(getContext());
-                    double latitude = gpsTracker.getLatitude();
-                    double longitude = gpsTracker.getLongitude();
-                    String address = getCurrentAddress(latitude, longitude);
-
-                    String extractedText = "";
-                    String input = address;
-                    String[] words = input.split(" "); // 띄어쓰기를 기준으로 문자열을 나눕니다.
-
-                    if (words.length >= 3) {
-                        // 뒤에서 첫 번째 띄어쓰기와 두 번째 띄어쓰기 사이의 문자를 추출합니다.
-                        extractedText = words[words.length - 4];
-                        extractedText += words[words.length - 2];
-                        System.out.println(extractedText);
-                    }
 
                     String result = "";
                     switch (weatherArr[0].getRainType()) {
@@ -566,7 +549,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     }
                     tvFMcurrentSky.setText(skyResult);
 
-                    tvFMCurrentAddress.setText(extractedText);
+
                     tvFMCurrentTemp.setText(weatherArr[0].getTemp() + "℃");
 
 
@@ -600,6 +583,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onLocationResult(LocationResult p0) {
                     if (p0 != null) {
+                        String extractedText = "";
                         for (android.location.Location location : p0.getLocations()) {
                             // 현재 위치의 위경도를 격자 좌표로 변환
                             curPoint = new Common().dfs_xy_conv(location.getLatitude(), location.getLongitude());
@@ -607,7 +591,21 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                             //tvDate.setText(new java.text.SimpleDateFormat("MM월 dd일", Locale.getDefault()).format(Calendar.getInstance().getTime()) + "날씨");
                             // nx, ny지점의 날씨 가져와서 설정하기
                             setWeatherAndLocation(curPoint.x, curPoint.y);
+                            String address = getCurrentAddress(location.getLatitude(), location.getLongitude());
+
+
+                            String input = address;
+                            String[] words = input.split(" "); // 띄어쓰기를 기준으로 문자열을 나눕니다.
+
+                            if (words.length >= 3) {
+                                // 뒤에서 첫 번째 띄어쓰기와 두 번째 띄어쓰기 사이의 문자를 추출합니다.
+                                extractedText = words[words.length - 4];
+                                extractedText += " " + words[words.length - 2];
+                                System.out.println(extractedText);
+                            }
+
                         }
+                        tvFMCurrentAddress.setText(extractedText);
                     }
                 }
             };
