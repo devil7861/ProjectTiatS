@@ -2,10 +2,12 @@ package com.jica.newpts.MainFragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -34,6 +36,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.jica.newpts.R;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -49,7 +52,8 @@ public class SearchFragment extends Fragment {
     private String base_date; // 발표 일자
     private String base_time;// 발표 시각
     private Point curPoint;  // 현재 위치의 격자 좌표를 저장할 포인트
-    private GpsTracker gpsTracker;
+    TextView tvFSAddress;
+
 
     // GPS 활성화 요청 코드
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -76,6 +80,7 @@ public class SearchFragment extends Fragment {
         weatherRecyclerView = view.findViewById(R.id.weatherRecyclerView);  // 날씨 리사이클러 뷰
         Button btnRefresh = view.findViewById(R.id.btnRefresh);     // 새로고침 버튼
         textview_address = view.findViewById(R.id.textview);
+        tvFSAddress = view.findViewById(R.id.tvFSAddress);
 
         // 리사이클러뷰 레이아웃 매니저 설정
         weatherRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -168,11 +173,6 @@ public class SearchFragment extends Fragment {
                         }
                     });
 
-                    // GPS 위치 가져오기
-                    gpsTracker = new GpsTracker(getContext());
-                    double latitude = gpsTracker.getLatitude();
-                    double longitude = gpsTracker.getLongitude();
-
                 } else {
 
                 }
@@ -200,6 +200,7 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onLocationResult(LocationResult p0) {
                     if (p0 != null) {
+                        String address = "";
                         for (android.location.Location location : p0.getLocations()) {
                             // 현재 위치의 위경도를 격자 좌표로 변환
                             curPoint = new Common().dfs_xy_conv(location.getLatitude(), location.getLongitude());
@@ -207,7 +208,9 @@ public class SearchFragment extends Fragment {
                             tvDate.setText(new SimpleDateFormat("MM월 dd일", Locale.getDefault()).format(Calendar.getInstance().getTime()) + "날씨");
                             // nx, ny지점의 날씨 가져와서 설정하기
                             setWeatherAndLocation(curPoint.x, curPoint.y);
+                            address = getCurrentAddress(location.getLatitude(), location.getLongitude());
                         }
+                        tvFSAddress.setText(address);
                     }
                 }
             };
@@ -307,5 +310,34 @@ public class SearchFragment extends Fragment {
         if (!TextUtils.isEmpty(message)) {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public String getCurrentAddress(double latitude, double longitude) {
+        List<Address> addresses;
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 7);
+
+        } catch (IOException ioException) {
+            /*     Toast.makeText(getContext(), "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();*/
+            return "지오코더 서비스 사용불가";
+        } catch (IllegalArgumentException illegalArgumentException) {
+            /*    Toast.makeText(getContext(), "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();*/
+            return "잘못된 GPS 좌표";
+        }
+
+        if (addresses == null || addresses.size() == 0) {
+            /*    Toast.makeText(getContext(), "주소 미발견", Toast.LENGTH_LONG).show();*/
+            return "주소 미발견";
+        }
+
+        Address address = addresses.get(0);
+        return address.getAddressLine(0).toString() + "\n";
+    }
+
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        // Fragment가 연결될 때 Activity의 Context를 사용하여 Geocoder를 초기화
+        geocoder = new Geocoder(context, Locale.getDefault());
     }
 }
