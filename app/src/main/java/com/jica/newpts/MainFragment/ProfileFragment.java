@@ -335,7 +335,7 @@ public class ProfileFragment extends Fragment {
         chatRoom.setC_idx(documentId);
         chatRoom.setC_send(currentUser.getEmail());
         chatRoom.setC_receive(userId);
-        chatRoom.setC_subject(currentUser.getEmail() + "와 " + userId + " 채팅");
+        chatRoom.setC_subject(currentUser.getEmail() + "와\n " + userId + "의 채팅");
         chatRoom.setC_date(date);
 
 

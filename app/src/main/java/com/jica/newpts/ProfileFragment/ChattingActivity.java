@@ -80,7 +80,7 @@ public class ChattingActivity extends AppCompatActivity {
         // 현재 로그인된 사용자를 가져옵니다.
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         tvACCSubject.setText(currentUser.getEmail() + "님 안녕하세요");
-        tvACCCountComment.setText("유저간 이야기ㄱ");
+        tvACCCountComment.setText("유저간 이야기");
 
         addTextWatcherForMaxLength(etACCWriteComment, 0);
 
