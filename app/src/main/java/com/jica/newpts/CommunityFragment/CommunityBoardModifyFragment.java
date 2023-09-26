@@ -81,13 +81,7 @@ public class CommunityBoardModifyFragment extends Fragment {
     private TextView selectedImageCountTextView;
     // -----------------------------------------------------------------------------------------
 
-    public static CommunityBoardModifyFragment newInstance(String param1, String param2) {
-        CommunityBoardModifyFragment fragment = new CommunityBoardModifyFragment();
-
-        return fragment;
-    }
-
-    @Override
+     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -111,8 +105,8 @@ public class CommunityBoardModifyFragment extends Fragment {
         etFCWHashtag = view.findViewById(R.id.etFCWHashtag);
         btnFCWWrite = view.findViewById(R.id.btnFCWWrite);
 
-        addTextWatcherForMaxLength(etFCWSubject, 20);
-        addTextWatcherForMaxLength(etFCWContent, 2000);
+        countSelectedPhoto(etFCWSubject, 20);
+        countSelectedPhoto(etFCWContent, 2000);
 
         // --------------------------------------------------------------
         // Firebase Storage 초기화
@@ -123,7 +117,7 @@ public class CommunityBoardModifyFragment extends Fragment {
         uploadButton = view.findViewById(R.id.uploadButton);
         photoRecyclerView = view.findViewById(R.id.photoRecyclerView);
         selectedImageCountTextView = view.findViewById(R.id.selectedImageCountTextView); // TextView 초기화
-
+        countSelectedPhoto(selectedImageCountTextView,maxSelectableCount);
         if (bundle != null) {
             int f_board_idx = bundle.getInt("f_board_idx");
             String f_subject = bundle.getString("f_subject");
@@ -284,7 +278,7 @@ public class CommunityBoardModifyFragment extends Fragment {
                 if (selectedImageUris.size() == maxSelectableCount) {
                     selectImagesButton.setVisibility(View.GONE);
                 }
-                addTextWatcherForMaxLength(selectedImageCountTextView, maxSelectableCount);
+                countSelectedPhoto(selectedImageCountTextView, maxSelectableCount);
                 // ------------------------------------------------------------------------
             }
         }
@@ -359,7 +353,7 @@ public class CommunityBoardModifyFragment extends Fragment {
         selectedImageCountTextView.setText(countText);
     }
 
-    public void addTextWatcherForMaxLength(final TextView textView, final int maxLength) {
+    public void countSelectedPhoto(final TextView textView, final int maxLength) {
         textView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -588,7 +582,7 @@ public class CommunityBoardModifyFragment extends Fragment {
         });
     }
 
-    public void addTextWatcherForMaxLength(final EditText editText, final int maxLength) {
+    public void countSelectedPhoto(final EditText editText, final int maxLength) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
