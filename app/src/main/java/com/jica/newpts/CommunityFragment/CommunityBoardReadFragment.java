@@ -91,7 +91,9 @@ public class CommunityBoardReadFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ConstraintLayout clFCTopMenu = getActivity().findViewById(R.id.clFCTopMenu);
-        clFCTopMenu.setVisibility(View.GONE);
+        if (clFCTopMenu != null) {
+            clFCTopMenu.setVisibility(View.GONE);
+        }
     }
 
     @Override
