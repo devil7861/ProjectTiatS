@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ProfileFragment.ProfileEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewInfoPlantActivity"
             android:exported="false" />
         <activity

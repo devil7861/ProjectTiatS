@@ -34,6 +34,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jica.newpts.CommunityFragment.CommunitySearchActivity;
 import com.jica.newpts.ProfileFragment.ChatRommListFragment;
+import com.jica.newpts.ProfileFragment.ProfileEditActivity;
 import com.jica.newpts.ProfileFragment.SearchDialog;
 import com.jica.newpts.R;
 import com.jica.newpts.TabLayoutActivity;
@@ -55,7 +56,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     LinearLayout llFPLogoutLayout, llFPMyBoard, llFPLoginWarning, llFPMyWork;
-    Button btnFPGotoLogin, btnFPLogout;
+    Button btnFPGotoLogin, btnFPLogout, btnFPEditProfile;
     String menuChoice[] = {"채팅상대 선택", "채팅접속"};
     List<String> selectUser = new ArrayList<>();
 
@@ -85,6 +86,7 @@ public class ProfileFragment extends Fragment {
         tvFPMyName = view.findViewById(R.id.tvFPMyName);
         llFPLoginWarning = view.findViewById(R.id.llFPLoginWarning);
         llFPMyWork = view.findViewById(R.id.llFPMyWork);
+        btnFPEditProfile = view.findViewById(R.id.btnFPEditProfile);
 
         // 원본데이터 만들기
         MenuData = (List<String>) Arrays.asList("유저채팅", "전문가 등록/취소", "고객센터", "알림센터", "어플설정", "회원탈퇴");
@@ -191,6 +193,13 @@ public class ProfileFragment extends Fragment {
                 } else {
                     Toast.makeText(requireContext(), "채팅기능을 사용하기위해서는\n 로그인을 해주세요", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        btnFPEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), ProfileEditActivity.class);
+                startActivity(intent);
             }
         });
 
