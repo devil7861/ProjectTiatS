@@ -28,7 +28,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private ArrayList<Comment> arrayList = new ArrayList<Comment>();
     private Context context;
     private String writer;
-    private static boolean subCommentLayoutOpen = false;
+    private static boolean subCommentLayoutOpen = true;
 
     public CommentAdapter(ArrayList<Comment> arrayList, Context context, String writer) {
         this.arrayList = arrayList;
@@ -152,9 +152,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         if (!subCommentLayoutOpen) {
                             btnLRIReCommentLayout.setVisibility(View.GONE);
                             subCommentLayoutOpen = true;
+                            tvLRICommentWrite.setText("댓글달기");
                         } else {
                             btnLRIReCommentLayout.setVisibility(View.VISIBLE);
                             subCommentLayoutOpen = false;
+                            tvLRICommentWrite.setText("닫기");
                         }
 
                         // 이벤트 리스너를 통해 클릭 이벤트를 전달합니다.
