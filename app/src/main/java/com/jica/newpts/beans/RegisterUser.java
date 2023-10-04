@@ -8,6 +8,9 @@ public class RegisterUser {
     private String u_name;
     private Timestamp u_date;
     private String u_photo;
+    private String u_phone;
+    private String u_address1;
+    private String u_address2;
 
     public int getU_idx() {
         return u_idx;
@@ -47,5 +50,29 @@ public class RegisterUser {
 
     public void setU_photo(String u_photo) {
         this.u_photo = u_photo;
+    }
+
+    public String getU_phone() {
+        return u_phone;
+    }
+
+    public void setU_phone(String u_phone) {
+        this.u_phone = u_phone;
+    }
+
+    public String getU_address1() {
+        return u_address1;
+    }
+
+    public void setU_address1(String u_address1) {
+        this.u_address1 = u_address1;
+    }
+
+    public String getU_address2() {
+        return u_address2;
+    }
+
+    public void setU_address2(String u_address2) {
+        this.u_address2 = u_address2;
     }
 }
