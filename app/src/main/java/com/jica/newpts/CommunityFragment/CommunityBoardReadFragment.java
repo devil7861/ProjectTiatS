@@ -231,7 +231,6 @@ public class CommunityBoardReadFragment extends Fragment {
             ibFCBRThumbsUp.setImageResource(R.drawable.heart_selected); // 선택된 이미지로 변경*/
 
 
-
             ibFCBRThumbsUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -258,7 +257,7 @@ public class CommunityBoardReadFragment extends Fragment {
                                 isProcessingClick = false; // 클릭 처리 완료
                                 ibFCBRThumbsUp.setSelected(!ibFCBRThumbsUp.isSelected());
                             }
-                        }, 500); // 클릭 후 1초 동안 연타 방지 (원하는 시간으로 조절 가능)
+                        }, 500); // 클릭 후 0.5초 동안 연타 방지 (원하는 시간으로 조절 가능)
                     }
                 }
             });
