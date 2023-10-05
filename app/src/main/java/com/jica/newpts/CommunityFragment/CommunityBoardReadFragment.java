@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -85,6 +84,7 @@ public class CommunityBoardReadFragment extends Fragment {
     private ArrayList<String> sliderImageUrls = new ArrayList<>();
     private Button btnFCBRdelete;
     private Button btnFCBRModify;
+    boolean isProcessingClick = false; // 클릭 처리 중인지 여부를 나타내는 플래그
 
 
     @Override
@@ -230,12 +230,18 @@ public class CommunityBoardReadFragment extends Fragment {
            /* ibFCBRThumbsUp.setSelected(true); // 이미지 버튼을 미리 눌린 상태로 설정
             ibFCBRThumbsUp.setImageResource(R.drawable.heart_selected); // 선택된 이미지로 변경*/
 
+
+
             ibFCBRThumbsUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // 버튼 클릭 처리 중인 경우 더 이상 클릭을 방지
-                    if (ibFCBRThumbsUp.isEnabled()) {
+                    // 클릭 처리 중인 경우 더 이상 클릭을 방지
+                    if (!isProcessingClick) {
+                        isProcessingClick = true; // 클릭 처리 중임을 표시
+
+                        // 버튼 비활성화
                         ibFCBRThumbsUp.setEnabled(false);
+
                         if (ibFCBRThumbsUp.isSelected()) {
                             ibFCBRThumbsUp.setImageResource(R.drawable.heart);
                             setGreatdown(f_board_idx, Integer.valueOf(tvFCBRGreatSave.getText().toString()));
@@ -245,13 +251,17 @@ public class CommunityBoardReadFragment extends Fragment {
                         }
 
                         // 클릭 처리가 완료되면 버튼을 다시 활성화
-                        ibFCBRThumbsUp.setEnabled(true);
-
-                        ibFCBRThumbsUp.setSelected(!ibFCBRThumbsUp.isSelected());
+                        ibFCBRThumbsUp.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ibFCBRThumbsUp.setEnabled(true);
+                                isProcessingClick = false; // 클릭 처리 완료
+                                ibFCBRThumbsUp.setSelected(!ibFCBRThumbsUp.isSelected());
+                            }
+                        }, 500); // 클릭 후 1초 동안 연타 방지 (원하는 시간으로 조절 가능)
                     }
                 }
             });
-
 
             adapter.setOnItemClickListener(new OnCommentItemClickListener() {
                 @Override

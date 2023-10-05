@@ -74,6 +74,7 @@
         <activity
             android:name=".MainActivity"
             android:label="메인 액티비티" />
+
     </application>
 
 </manifest>
