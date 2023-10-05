@@ -44,7 +44,7 @@ public class TabLayoutActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, communityFragment).commit();
                 BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
                 bottomNavigationView.setSelectedItemId(R.id.tab4);
-            } else if (receivedValue.equals("ChattingActivity")) {
+            } else if (receivedValue.equals("ChattingActivity") || receivedValue.equals("ProfileEditActivity")) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
                 BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
                 bottomNavigationView.setSelectedItemId(R.id.tab5);

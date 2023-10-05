@@ -11,23 +11,34 @@
         android:id="@+id/linearLayout12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view24">
+        app:layout_constraintTop_toBottomOf="@+id/tvFPMyId">
 
-        <ImageView
-            android:id="@+id/imageView32"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvAPECardView"
             android:layout_width="90dp"
             android:layout_height="90dp"
+            android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/drawable_circle_black"
-            android:padding="20dp"
+            app:cardCornerRadius="75dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view24"
-            app:srcCompat="@drawable/main_logo_white" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
+
+            <ImageView
+                android:id="@+id/ivFPMyPhoto"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view24"
+                app:srcCompat="@drawable/main_logo" />
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/llFPMyWork"
@@ -36,9 +47,9 @@
             android:background="@drawable/drawable_quickmenu_area"
             android:orientation="horizontal"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView32"
+            app:layout_constraintBottom_toBottomOf="@+id/ivFPMyPhoto"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView32">
+            app:layout_constraintTop_toTopOf="@+id/ivFPMyPhoto">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -178,17 +189,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvFPMyName"
+        android:id="@+id/tvFPMyId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:text="Guest"
-        android:textSize="20dp"
+        android:textSize="14dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/view24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/view24" />
 
     <View
         android:id="@+id/view10"
@@ -271,12 +281,25 @@
         app:layout_constraintTop_toBottomOf="@+id/view10" />
 
     <TextView
+        android:id="@+id/tvFPMyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="20dp"
+        android:text="Guset"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view24" />
+
+    <TextView
+        android:id="@+id/textView103"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="2dp"
         android:text="님 안녕하세요"
-        android:textSize="13dp"
+        android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/tvFPMyName"
         app:layout_constraintStart_toEndOf="@+id/tvFPMyName" />
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -41,6 +43,7 @@ import com.jica.newpts.TabLayoutActivity;
 import com.jica.newpts.TotalLoginActivity;
 import com.jica.newpts.beans.Board;
 import com.jica.newpts.beans.ChatRoom;
+import com.jica.newpts.beans.RegisterUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,13 +55,14 @@ public class ProfileFragment extends Fragment {
     private ArrayList<Board> arrayList = new ArrayList<>();
     // 어뎁터
     ArrayAdapter<String> arrayAdapter;
-    TextView tvFPCountMyBoard, tvFPMyName;
+    TextView tvFPCountMyBoard, tvFPMyId, tvFPMyName;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     LinearLayout llFPLogoutLayout, llFPMyBoard, llFPLoginWarning, llFPMyWork;
     Button btnFPGotoLogin, btnFPLogout, btnFPEditProfile;
     String menuChoice[] = {"채팅상대 선택", "채팅접속"};
     List<String> selectUser = new ArrayList<>();
+    ImageView ivFPMyPhoto;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,10 +87,12 @@ public class ProfileFragment extends Fragment {
         btnFPGotoLogin = view.findViewById(R.id.btnFPGotoLogin);
         btnFPLogout = view.findViewById(R.id.btnFPLogout);
         llFPMyBoard = view.findViewById(R.id.llFPMyBoard);
-        tvFPMyName = view.findViewById(R.id.tvFPMyName);
+        tvFPMyId = view.findViewById(R.id.tvFPMyId);
         llFPLoginWarning = view.findViewById(R.id.llFPLoginWarning);
         llFPMyWork = view.findViewById(R.id.llFPMyWork);
         btnFPEditProfile = view.findViewById(R.id.btnFPEditProfile);
+        ivFPMyPhoto = view.findViewById(R.id.ivFPMyPhoto);
+        tvFPMyName = view.findViewById(R.id.tvFPMyName);
 
         // 원본데이터 만들기
         MenuData = (List<String>) Arrays.asList("유저채팅", "전문가 등록/취소", "고객센터", "알림센터", "어플설정", "회원탈퇴");
@@ -98,9 +104,10 @@ public class ProfileFragment extends Fragment {
             countMyBoard();
             btnFPGotoLogin.setVisibility(View.GONE);
             llFPLogoutLayout.setVisibility(View.VISIBLE);
-            tvFPMyName.setText(currentUser.getEmail());
+            tvFPMyId.setText(currentUser.getEmail());
             llFPLoginWarning.setVisibility(View.GONE);
             llFPMyWork.setVisibility(View.VISIBLE);
+            loadCurrentUser();
         } else {
             btnFPGotoLogin.setVisibility(View.VISIBLE);
             llFPLogoutLayout.setVisibility(View.GONE);
@@ -143,9 +150,8 @@ public class ProfileFragment extends Fragment {
 
                 //대화상자 만들기
                 androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+
                 // 다이얼로그가 나타날 때 배경을 반투명하게 설정
-
-
                 alertDialog.show(); //대화상자 보이기
             }
         });
@@ -398,5 +404,27 @@ public class ProfileFragment extends Fragment {
 
 
         alertDialog.show(); //대화상자 보이기
+    }
+
+    public void loadCurrentUser() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        db.collection("User")
+                .whereEqualTo("u_id", currentUser.getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            RegisterUser registerUser = document.toObject(RegisterUser.class);
+                            tvFPMyName.setText(registerUser.getU_name());
+                            Glide.with(requireContext())
+                                    .load(registerUser.getU_photo())
+                                    .into(ivFPMyPhoto);
+                        }
+                    } else {
+                        Log.e("TAG", "Error getting documents: ", task.getException());
+                    }
+                });
     }
 }

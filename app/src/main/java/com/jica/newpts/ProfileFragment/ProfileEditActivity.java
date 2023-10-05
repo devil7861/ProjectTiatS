@@ -1,5 +1,6 @@
 package com.jica.newpts.ProfileFragment;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -14,25 +15,41 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.jica.newpts.R;
+import com.jica.newpts.TabLayoutActivity;
 import com.jica.newpts.beans.Board;
 import com.jica.newpts.beans.RegisterUser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProfileEditActivity extends AppCompatActivity {
 
     private CardView cvAPECardView;
-    private ImageView ivAPEProfilePhoto, ivAPEBackButton;
+    private ImageView ivAPEProfilePhoto, ivAPEBackButton, ivAPEEditProfile;
     private Button btnAPEEditPhoto;
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseFirestore db;
     private EditText etAPEUserId, etAPEUserName, etAPEUserPhone, etAPEUserAddress1, etAPEUserAddress2;
+    private Uri selectedImageUri; // 이미지를 저장할 변수
+    TextView tvAPEDocumentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +64,10 @@ public class ProfileEditActivity extends AppCompatActivity {
         etAPEUserName = findViewById(R.id.etAPEUserName);
         etAPEUserPhone = findViewById(R.id.etAPEUserPhone);
         etAPEUserAddress1 = findViewById(R.id.etAPEUserAddress1);
-        etAPEUserAddress2 = findViewById(R.id.etAPEUserAddress1);
+        etAPEUserAddress2 = findViewById(R.id.etAPEUserAddress2);
+        ivAPEEditProfile = findViewById(R.id.ivAPEEditProfile);
+        tvAPEDocumentId = findViewById(R.id.tvAPEDocumentId);
+
 
         db = FirebaseFirestore.getInstance(); // Firestore 초기화
 
@@ -67,6 +87,17 @@ public class ProfileEditActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        ivAPEEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (selectedImageUri != null) {
+                    uploadImageToStorage(selectedImageUri);
+                } else {
+                    Toast.makeText(ProfileEditActivity.this, "이미지를 선택하세요", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     // 갤러리 열기
@@ -81,10 +112,10 @@ public class ProfileEditActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri imageUri = data.getData();
+            selectedImageUri = data.getData();
             try {
                 // 선택한 이미지를 비트맵으로 로드하여 ImageView에 설정
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
                 ivAPEProfilePhoto.setImageBitmap(bitmap);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -111,10 +142,93 @@ public class ProfileEditActivity extends AppCompatActivity {
                             Glide.with(getApplication())
                                     .load(registerUser.getU_photo())
                                     .into(ivAPEProfilePhoto);
+                            tvAPEDocumentId.setText(String.valueOf(registerUser.getU_idx()));
                         }
                     } else {
                         Log.e("TAG", "Error getting documents: ", task.getException());
                     }
                 });
+    }
+
+    public void updateProfile(String imageUrl) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        String name = etAPEUserName.getText().toString();
+        String phone = etAPEUserPhone.getText().toString();
+        String address1 = etAPEUserAddress1.getText().toString();
+        String address2 = etAPEUserAddress2.getText().toString();
+
+        if (name.isEmpty()) {
+            Toast.makeText(getApplication(), "이름은 필수 입력사항입니다", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> updateUser = new HashMap<>();
+        updateUser.put("u_name", name);
+        updateUser.put("u_phone", phone);
+        updateUser.put("u_address1", address1);
+        updateUser.put("u_address2", address2);
+        updateUser.put("u_photo", imageUrl);
+
+        // "Board" 컬렉션에 사용자 정의 식별자를 가진 문서 추가
+        db.collection("User")
+                .document(tvAPEDocumentId.getText().toString())
+                .update(updateUser)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // 쓰기 성공
+                      Intent intent = new Intent(getApplicationContext(), TabLayoutActivity.class);
+                      intent.putExtra("sendData","ProfileEditActivity");
+                      startActivity(intent);
+                      finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 쓰기 실패
+                        Toast.makeText(ProfileEditActivity.this, "저장을 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    // Firebase Storage에 이미지 업로드
+    private void uploadImageToStorage(Uri imageUri) {
+        if (imageUri != null) {
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            // 이미지를 저장할 경로를 지정합니다. 사용자 고유 ID를 이용하거나 원하는 경로로 지정하세요.
+            StorageReference imageRef = storageRef.child("profile_images/" + currentUser.getUid() + ".jpg");
+
+            // 이미지 업로드
+            imageRef.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // 이미지 업로드 성공
+                            // 이미지 다운로드 URL을 가져와 프로필 업데이트에 사용할 수 있습니다.
+                            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String imageUrl = uri.toString();
+                                    // Firebase Firestore를 사용하여 이미지 URL을 저장하거나 필요한 곳에서 사용하세요.
+                                    // 예를 들어, Firestore에 imageUrl을 업데이트하는 코드를 추가하세요.
+                                    updateProfile(imageUrl);
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // 이미지 업로드 실패
+                            Toast.makeText(ProfileEditActivity.this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 }
