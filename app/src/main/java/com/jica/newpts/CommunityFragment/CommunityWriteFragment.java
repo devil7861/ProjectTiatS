@@ -1,6 +1,5 @@
 package com.jica.newpts.CommunityFragment;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +37,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -184,7 +185,7 @@ public class CommunityWriteFragment extends Fragment {
         btnFCWWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveBoardDataWithNextDocumentId();
+                loadCurrentUserandSubWrite();
 
                 clFCTopMenu.setVisibility(View.VISIBLE);
             }
@@ -332,7 +333,7 @@ public class CommunityWriteFragment extends Fragment {
         Toast.makeText(requireActivity(), message, Toast.LENGTH_LONG).show();
     }
 
-    private void saveBoardDataWithNextDocumentId() {
+    private void saveBoardDataWithNextDocumentId(String uPhoto, String uName) {
         // "Board" 컬렉션에 대한 참조
         CollectionReference boardCollection = db.collection("Board");
 
@@ -353,7 +354,7 @@ public class CommunityWriteFragment extends Fragment {
                             long nextDocumentId = currentDocumentId + 1;
 
                             // 나머지 저장 로직 구현
-                            saveBoardData(nextDocumentId);
+                            saveBoardData(nextDocumentId, uPhoto, uName);
 
                             // Firebase Storage에 업로드할 이미지 목록이 준비되면
                             // 이미지를 하나씩 업로드
@@ -365,7 +366,7 @@ public class CommunityWriteFragment extends Fragment {
                             resetImageSelect();
                         } else {
                             // Board 컬렉션에 문서가 없는 경우, ID를 1로 설정합니다.
-                            saveBoardData(1);
+                            saveBoardData(1, uPhoto, uName);
 
                             // Firebase Storage에 업로드할 이미지 목록이 준비되면
                             // 이미지를 하나씩 업로드
@@ -387,7 +388,7 @@ public class CommunityWriteFragment extends Fragment {
                 });
     }
 
-    private void saveBoardData(long documentId) {
+    private void saveBoardData(long documentId, String uPhoto, String uName) {
         Board board = new Board();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
@@ -416,6 +417,8 @@ public class CommunityWriteFragment extends Fragment {
         board.setF_date(date);
         board.setF_board_idx((int) documentId);
         board.setF_photo(profile);
+        board.setF_writer_photo(uPhoto);
+        board.setF_writer_name(uName);
 
         // "Board" 컬렉션에 사용자 정의 식별자를 가진 문서 추가
         db.collection("Board")
@@ -487,5 +490,28 @@ public class CommunityWriteFragment extends Fragment {
 
             }
         });
+    }
+
+    public void loadCurrentUserandSubWrite() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        db.collection("User")
+                .whereEqualTo("u_id", currentUser.getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String uPhoto = document.getString("u_photo");
+                            String uName = document.getString("u_name");
+                            // u_photo 필드의 값(uPhoto)를 사용하거나 저장하세요.
+                            // 예를 들어, 이미지 뷰에 로드하는 등의 작업을 수행할 수 있습니다.
+                            saveBoardDataWithNextDocumentId(uPhoto, uName);
+                        }
+
+                    } else {
+                        Log.e("TAG", "Error getting documents: ", task.getException());
+                    }
+                });
     }
 }

@@ -73,9 +73,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             }
         }
         holder.tvLRIMargineText.setText(marginRole);
-
-
         // --------------------------------------
+        holder.tvLRIWriterName.setText(arrayList.get(position).getR_name());
     }
 
     @Override
@@ -108,6 +107,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         ConstraintLayout btnLRIReCommentLayout;
         TextView tvLRIMargineText;
         TextView tvLRIcheckWritter;
+        TextView tvLRIWriterName;
 
 
         public CommentViewholder(@NonNull View itemView, final OnCommentItemClickListener listener) {
@@ -122,6 +122,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.btnLRIReCommentLayout = itemView.findViewById(R.id.btnLRIReCommentLayout);
             this.tvLRIMargineText = itemView.findViewById(R.id.tvLRIMargineText);
             this.tvLRIcheckWritter = itemView.findViewById(R.id.tvLRIcheckWritter);
+            this.tvLRIWriterName = itemView.findViewById(R.id.tvLRIWriterName);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

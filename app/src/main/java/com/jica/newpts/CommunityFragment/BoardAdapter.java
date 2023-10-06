@@ -49,7 +49,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewhol
                 .load(arrayList.get(position).getF_down_url())
                 .into(holder.ivLIProfile);
         holder.tvLISubject.setText(arrayList.get(position).getF_subject());// 숫자가 있으면 String.valueOf로 감싸줘야함
-        holder.tvLIUser.setText(arrayList.get(position).getF_user());
+        holder.tvLIUser.setText("<"+arrayList.get(position).getF_user()+">");
         // Timestamp형으로 저장된 시간을 여기서 쓸수 있게 string형으로 변환
         Timestamp timestamp = arrayList.get(position).getF_date();
         // Timestamp를 Date로 변환
@@ -63,6 +63,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewhol
         holder.tvLICountComment.setText(countComment);
         String boardCount = String.valueOf(arrayList.get(position).getHits());
         holder.tvLIBoardCount.setText("조회수 " + boardCount);
+        holder.tvLIUserName.setText(arrayList.get(position).getF_writer_name());
     }
 
     @Override
@@ -92,6 +93,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewhol
         TextView tvLIDate;
         TextView tvLICountComment;
         TextView tvLIBoardCount;
+        TextView tvLIUserName;
 
         public BoardViewholder(@NonNull View itemView, final OnBoardItemClickListener listener) {
             super(itemView);
@@ -101,6 +103,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewhol
             this.tvLIDate = itemView.findViewById(R.id.tvLIDate);
             this.tvLICountComment = itemView.findViewById(R.id.tvLICountComment);
             this.tvLIBoardCount = itemView.findViewById(R.id.tvLIBoardCount);
+            this.tvLIUserName = itemView.findViewById(R.id.tvLIUserName);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

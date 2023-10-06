@@ -19,7 +19,7 @@ public class Board {
     private Timestamp f_del_date;
     private Timestamp f_modify_date;
     private String f_writer_name;
-    private String f_wirter_photo;
+    private String f_writer_photo;
 
 
     public Board() {
@@ -151,12 +151,12 @@ public class Board {
         this.f_writer_name = f_writer_name;
     }
 
-    public String getF_wirter_photo() {
-        return f_wirter_photo;
+    public String getF_writer_photo() {
+        return f_writer_photo;
     }
 
-    public void setF_wirter_photo(String f_wirter_photo) {
-        this.f_wirter_photo = f_wirter_photo;
+    public void setF_writer_photo(String f_writer_photo) {
+        this.f_writer_photo = f_writer_photo;
     }
 
     public Timestamp getF_del_date() {

@@ -12,6 +12,7 @@ public class Comment {
     private Timestamp r_date;
     private String r_profile_photo;
     private String r_check_level;
+    private String r_name;
 
 
     public Comment() {
@@ -99,6 +100,14 @@ public class Comment {
 
     public void setR_check_level(String r_check_level) {
         this.r_check_level = r_check_level;
+    }
+
+    public String getR_name() {
+        return r_name;
+    }
+
+    public void setR_name(String r_name) {
+        this.r_name = r_name;
     }
 
     @Override

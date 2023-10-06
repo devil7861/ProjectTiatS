@@ -26,8 +26,8 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvAPECardView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
                 app:cardCornerRadius="75dp"
@@ -38,8 +38,8 @@
 
                 <ImageView
                     android:id="@+id/ivLRIProfile"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     android:src="@drawable/default_profile_icon" />
             </androidx.cardview.widget.CardView>
@@ -60,12 +60,11 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tvLRIUser"
+                        android:id="@+id/tvLRIWriterName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="유저아이디"
-                        android:textColor="#000000"
-                        android:textSize="12dp"
+                        android:layout_weight="1"
+                        android:text="유저이름"
                         android:textStyle="bold" />
 
                     <TextView
@@ -81,6 +80,14 @@
                         android:textSize="11dp"
                         android:visibility="gone" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvLRIUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="유저아이디"
+                    android:textColor="#827F7F"
+                    android:textSize="10dp" />
 
                 <TextView
                     android:id="@+id/tvLRIContent"

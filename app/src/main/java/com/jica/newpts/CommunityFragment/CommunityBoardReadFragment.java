@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -62,9 +64,9 @@ public class CommunityBoardReadFragment extends Fragment {
     private TextView tvFCBRHits;
     TextView tvFCBRWriteComment;
     TextView tvFCBRGreatSave;
-    TextView tvFCBRTitle;
+    TextView tvFCBRTitle, tvFCBWriterName;
     ImageView ivFCBRThumbsupDummy;
-    ImageView ivFCBRNoImg;
+    ImageView ivFCBRNoImg, ivFCBRWriterPhoto;
 
     private ImageButton ibFCBRThumbsUp;
     private LinearLayout llFCBRHashtag;
@@ -124,6 +126,8 @@ public class CommunityBoardReadFragment extends Fragment {
         tvFCBRTitle = view.findViewById(R.id.tvFCBRTitle);
         btnFCBRdelete = view.findViewById(R.id.btnFCBRdelete);
         btnFCBRModify = view.findViewById(R.id.btnFCBRModify);
+        tvFCBWriterName = view.findViewById(R.id.tvFCBWriterName);
+        ivFCBRWriterPhoto = view.findViewById(R.id.ivFCBRWriterPhoto);
 
         sliderViewPager.setOffscreenPageLimit(1);
 
@@ -139,6 +143,8 @@ public class CommunityBoardReadFragment extends Fragment {
             String f_content = bundle.getString("f_content");
             String f_photo = bundle.getString("f_photo"); // 이미지는 뒤에서 세팅
             int f_board_info_idx = bundle.getInt("f_board_indo_idx");
+            String f_writer_photo = bundle.getString("f_writer_photo");
+            String f_writer_name = bundle.getString("f_writer_name");
 
             String f_board_name = "";
             switch (f_board_info_idx) {
@@ -163,7 +169,11 @@ public class CommunityBoardReadFragment extends Fragment {
             tvFCBRGreatSave.setText(String.valueOf(f_thumbs_up));
             tvFCBRHits.setText("조회 " + hits);
             tvFCBRTitle.setText(f_board_name);
-
+            tvFCBWriterName.setText(f_writer_name);
+            Glide.with(requireContext())
+                    .load(f_writer_photo)
+                    .into(ivFCBRWriterPhoto);
+            Toast.makeText(requireContext(), f_content + "", Toast.LENGTH_SHORT).show();
             if (f_hashtag != null && !f_hashtag.isEmpty()) {
                 String[] hashTags = f_hashtag.split("#");
                 for (int i = 0; i < hashTags.length && i <= 3; i++) {

@@ -1,13 +1,5 @@
 package com.jica.newpts.CommunityFragment;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
@@ -22,7 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -37,12 +35,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.jica.newpts.CommunityFragment.CommentAdapter;
-import com.jica.newpts.CommunityFragment.OnCommentItemClickListener;
 import com.jica.newpts.R;
 import com.jica.newpts.TotalLoginActivity;
 import com.jica.newpts.beans.Comment;
-import com.jica.newpts.beans.RegisterUser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -105,7 +100,8 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             String check_level = arrayList.get(position).getR_check_level();
 
                             int r_level_idx = arrayList.get(position).getR_level_idx();
-                            saveSubCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, Integer.valueOf(arrayList.get(position).getR_parent_idx()), reComment, r_level_idx, check_level);
+                            loadCurrentUserandSubWrite(f_board_idx, f_subject, Integer.valueOf(arrayList.get(position).getR_parent_idx()), reComment, r_level_idx, check_level);
+                            /*saveSubCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, Integer.valueOf(arrayList.get(position).getR_parent_idx()), reComment, r_level_idx, check_level);*/
                             countComment(f_board_idx);
                             viewHolder.btnLRIReCommentWrite.setText("");
                         }
@@ -238,7 +234,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveCommentDataWithNextDocumentId(String boardId, String subject, String uPhoto) {
+    private void saveCommentDataWithNextDocumentId(String boardId, String subject, String uPhoto, String uName) {
         // "Board" 컬렉션에 대한 참조
         DocumentReference boardRef = db.collection("Board").document(boardId);
 
@@ -262,10 +258,10 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             long nextDocumentId = currentDocumentId + 1;
 
                             // 나머지 저장 로직 구현
-                            addCommentToBoard(boardId, nextDocumentId, subject, uPhoto);
+                            addCommentToBoard(boardId, nextDocumentId, subject, uPhoto, uName);
                         } else {
                             // Board 컬렉션에 문서가 없는 경우, ID를 1로 설정합니다.
-                            addCommentToBoard(boardId, 1, subject, uPhoto);
+                            addCommentToBoard(boardId, 1, subject, uPhoto, uName);
                         }
                     }
                 })
@@ -278,7 +274,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                 });
     }
 
-    public void addCommentToBoard(String boardId, long nextDocumentId, String subject, String uPhoto) {
+    public void addCommentToBoard(String boardId, long nextDocumentId, String subject, String uPhoto, String uName) {
         Comment comment = new Comment();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         // "Board" 컬렉션의 "boardId" 문서 참조
@@ -303,6 +299,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
         comment.setR_date(date);
         comment.setR_profile_photo(photo);
         comment.setR_check_level(String.valueOf(nextDocumentId));
+        comment.setR_name(uName);
 
         // 댓글 추가
         commentCollectionRef
@@ -331,7 +328,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
     }
 
 
-    private void saveSubCommentDataWithNextDocumentId(String boardId, String subject, int parentIdx, String reComment, int r_level_idx, String check_level) {
+    private void saveSubCommentDataWithNextDocumentId(String boardId, String subject, int parentIdx, String reComment, int r_level_idx, String check_level, String uPhoto, String Uname) {
         // "Board" 컬렉션에 대한 참조
         DocumentReference boardRef = db.collection("Board").document(boardId);
 
@@ -353,11 +350,11 @@ public class CommunityCommentActivity extends AppCompatActivity {
 
                             // 현재 문서 ID에 1을 더하여 다음 문서의 ID를 설정합니다.
                             long nextDocumentId = currentDocumentId + 1;
-                            saveSubCommentDataWithParentIdx(boardId, subject, nextDocumentId, parentIdx, reComment, r_level_idx, check_level);
+                            saveSubCommentDataWithParentIdx(boardId, subject, nextDocumentId, parentIdx, reComment, r_level_idx, check_level, uPhoto, Uname);
                         } else {
                             // Board 컬렉션에 문서가 없는 경우, ID를 1로 설정합니다.
                             long nextDocumentId = 1;
-                            saveSubCommentDataWithParentIdx(boardId, subject, 1, parentIdx, reComment, r_level_idx, check_level);
+                            saveSubCommentDataWithParentIdx(boardId, subject, 1, parentIdx, reComment, r_level_idx, check_level, uPhoto, Uname);
                         }
                     }
                 })
@@ -371,7 +368,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
 
     }
 
-    private void saveSubCommentDataWithParentIdx(String boardId, String subject, long documentId, int parentIdx, String reComment, int r_level_idx, String check_level) {
+    private void saveSubCommentDataWithParentIdx(String boardId, String subject, long documentId, int parentIdx, String reComment, int r_level_idx, String check_level, String Uphoto, String Uname) {
         // "Board" 컬렉션에 대한 참조
         DocumentReference boardRef = db.collection("Board").document(boardId);
 
@@ -397,18 +394,15 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             long nextChildIdx = currentChildIdx + 1;
 
                             // 나머지 저장 로직 구현
-                            addSubCommentToBoard(boardId, documentId, subject, parentIdx, nextChildIdx, reComment, r_level_idx, check_level);
+                            addSubCommentToBoard(boardId, documentId, subject, parentIdx, nextChildIdx, reComment, r_level_idx, check_level, Uphoto, Uname);
                         } else {
-
-                            // Board 컬렉션에 문서가 하나 이상 있는 경우
-
                             long currentChildIdx = 0;
 
                             // 현재 문서 ID에 1을 더하여 다음 문서의 ID를 설정합니다.
                             long nextChildIdx = currentChildIdx + 1;
 
                             // 나머지 저장 로직 구현
-                            addSubCommentToBoard(boardId, documentId, subject, parentIdx, nextChildIdx, reComment, r_level_idx, check_level);
+                            addSubCommentToBoard(boardId, documentId, subject, parentIdx, nextChildIdx, reComment, r_level_idx, check_level, Uphoto, Uname);
                         }
                     }
                 })
@@ -422,7 +416,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                 });
     }
 
-    public void addSubCommentToBoard(String boardId, long nextDocumentId, String subject, int parentIdx, long childIdx, String reComment, int r_level_idx, String check_level) {
+    public void addSubCommentToBoard(String boardId, long nextDocumentId, String subject, int parentIdx, long childIdx, String reComment, int r_level_idx, String check_level, String Uphoto, String Uname) {
         Comment comment = new Comment();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         // "Board" 컬렉션의 "boardId" 문서 참조
@@ -437,7 +431,6 @@ public class CommunityCommentActivity extends AppCompatActivity {
 
         String content = reComment; // 내용 가져오기
         int r_next_level_idx = r_level_idx + 1;
-        String photo = "https://firebasestorage.googleapis.com/v0/b/newpts-26161.appspot.com/o/profile.png?alt=media&token=b1f1cdfd-0932-4603-bc50-70428a419da6";
         comment.setR_idx((int) nextDocumentId);
         comment.setR_level_idx(r_next_level_idx);
         comment.setR_parent_idx(parentIdx);
@@ -445,8 +438,8 @@ public class CommunityCommentActivity extends AppCompatActivity {
         comment.setR_content(content);
         comment.setR_user(currentUser != null ? currentUser.getEmail() : ""); // currentUser가 null이 아닌지 확인 후 getEmail 호출
         comment.setR_date(date);
-        comment.setR_profile_photo(photo);
-
+        comment.setR_profile_photo(Uphoto);
+        comment.setR_name(Uname);
         // --------------------------------------------
         String originalString = check_level;
 
@@ -566,9 +559,33 @@ public class CommunityCommentActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String uPhoto = document.getString("u_photo");
+                            String uName = document.getString("u_name");
                             // u_photo 필드의 값(uPhoto)를 사용하거나 저장하세요.
                             // 예를 들어, 이미지 뷰에 로드하는 등의 작업을 수행할 수 있습니다.
-                            saveCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, uPhoto);
+                            saveCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, uPhoto, uName);
+                        }
+
+                    } else {
+                        Log.e("TAG", "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+
+    public void loadCurrentUserandSubWrite(int f_board_idx, String f_subject, int parent_idx, String reComment, int r_level_idx, String check_level) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        db.collection("User")
+                .whereEqualTo("u_id", currentUser.getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String uPhoto = document.getString("u_photo");
+                            String uName = document.getString("u_name");
+                            // u_photo 필드의 값(uPhoto)를 사용하거나 저장하세요.
+                            // 예를 들어, 이미지 뷰에 로드하는 등의 작업을 수행할 수 있습니다.
+                            saveSubCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, parent_idx, reComment, r_level_idx, check_level, uPhoto, uName);
                         }
 
                     } else {

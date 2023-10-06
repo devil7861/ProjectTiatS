@@ -48,7 +48,7 @@ public class CommunityBoard3Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_community_board3, container, false);
+        View view = inflater.inflate(R.layout.fragment_community_board2, container, false);
         return view;
     }
 
@@ -93,6 +93,7 @@ public class CommunityBoard3Fragment extends Fragment {
                 bundle.putString("f_photo", item.getF_photo());
                 bundle.putInt("f_board_indo_idx", item.getF_board_info_idx());
 
+
                 Timestamp timestamp = item.getF_date();
                 Date date = timestamp.toDate();
 
@@ -106,6 +107,8 @@ public class CommunityBoard3Fragment extends Fragment {
                 bundle.putString("f_content", item.getF_context());
                 countReadBoard(item.getF_board_idx(), item.getHits());
                 bundle.putInt("hits", item.getHits() + 1);
+                bundle.putString("f_writer_photo", item.getF_writer_photo());
+                bundle.putString("f_writer_name", item.getF_writer_name());
                 fragment.setArguments(bundle);
 
                 navigateToFragment(fragment);
