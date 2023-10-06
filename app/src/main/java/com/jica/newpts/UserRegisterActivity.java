@@ -82,10 +82,10 @@ public class UserRegisterActivity extends AppCompatActivity {
                 checkDuplicateEmail();
             }
         });
-        addTextWatcherForMaxLength(etURId,30);
-        addTextWatcherForMaxLength(etURPassword,30);
-        addTextWatcherForMaxLength(etURPassword2,30);
-        addTextWatcherForMaxLength(etURName,10);
+        addTextWatcherForMaxLength(etURId, 30);
+        addTextWatcherForMaxLength(etURPassword, 30);
+        addTextWatcherForMaxLength(etURPassword2, 30);
+        addTextWatcherForMaxLength(etURName, 10);
     }
 
     private void registerUser() {
@@ -215,12 +215,13 @@ public class UserRegisterActivity extends AppCompatActivity {
 
         String name = etURName.getText().toString(); // 제목 가져오기
         String id = etURId.getText().toString(); // 내용 가져오기
-
+        String defaultphoto = "https://firebasestorage.googleapis.com/v0/b/newpts-26161.appspot.com/o/profile_images%2Fdefault_profile_icon.png?alt=media&token=39b3e46f-9966-4116-8849-ebdc0e9f11df";
 
         user.setU_name(name);
         user.setU_id(id);
         user.setU_idx((int) documentId);
         user.setU_date(date);
+        user.setU_photo(defaultphoto);
         // "Board" 컬렉션에 사용자 정의 식별자를 가진 문서 추가
         db.collection("User")
                 .document(String.valueOf(documentId)) // 사용자 정의 문서 식별자 설정
@@ -245,6 +246,7 @@ public class UserRegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+
     public void addTextWatcherForMaxLength(final EditText editText, final int maxLength) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override

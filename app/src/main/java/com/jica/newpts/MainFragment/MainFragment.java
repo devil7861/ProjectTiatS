@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.location.Address;
 import android.location.Geocoder;
@@ -26,7 +24,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -293,7 +290,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             if (!isLoggedIn) {
                 requireLogin();
             } else {
-                navigateToFragment(new ProfileFragment(), R.id.tab5);
+                /*navigateToFragment(new ProfileFragment(), R.id.tab5);*/
+                Intent intent = new Intent(requireContext(), TabLayoutActivity.class);
+                intent.putExtra("sendData", "MainFragmentToProfile");
+                startActivity(intent);
             }
         } else if (clickedViewId == R.id.loFMCommunity) {
             navigateToFragment(new CommunityFragment(), R.id.tab4);

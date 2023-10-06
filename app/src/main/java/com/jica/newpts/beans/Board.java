@@ -18,6 +18,8 @@ public class Board {
     private boolean f_del;
     private Timestamp f_del_date;
     private Timestamp f_modify_date;
+    private String f_writer_name;
+    private String f_wirter_photo;
 
 
     public Board() {
@@ -139,6 +141,22 @@ public class Board {
 
     public void setF_del(boolean f_del) {
         this.f_del = f_del;
+    }
+
+    public String getF_writer_name() {
+        return f_writer_name;
+    }
+
+    public void setF_writer_name(String f_writer_name) {
+        this.f_writer_name = f_writer_name;
+    }
+
+    public String getF_wirter_photo() {
+        return f_wirter_photo;
+    }
+
+    public void setF_wirter_photo(String f_wirter_photo) {
+        this.f_wirter_photo = f_wirter_photo;
     }
 
     public Timestamp getF_del_date() {

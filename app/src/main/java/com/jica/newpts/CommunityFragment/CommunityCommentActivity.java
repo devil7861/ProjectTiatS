@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -41,6 +42,7 @@ import com.jica.newpts.CommunityFragment.OnCommentItemClickListener;
 import com.jica.newpts.R;
 import com.jica.newpts.TotalLoginActivity;
 import com.jica.newpts.beans.Comment;
+import com.jica.newpts.beans.RegisterUser;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -119,7 +121,8 @@ public class CommunityCommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (currentUser != null) {
-                    saveCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject);
+                    loadCurrentUserandWrite(f_board_idx, f_subject);
+
                     countComment(f_board_idx);
                 } else {
                     requireLogin();
@@ -235,7 +238,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveCommentDataWithNextDocumentId(String boardId, String subject) {
+    private void saveCommentDataWithNextDocumentId(String boardId, String subject, String uPhoto) {
         // "Board" 컬렉션에 대한 참조
         DocumentReference boardRef = db.collection("Board").document(boardId);
 
@@ -259,10 +262,10 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             long nextDocumentId = currentDocumentId + 1;
 
                             // 나머지 저장 로직 구현
-                            addCommentToBoard(boardId, nextDocumentId, subject);
+                            addCommentToBoard(boardId, nextDocumentId, subject, uPhoto);
                         } else {
                             // Board 컬렉션에 문서가 없는 경우, ID를 1로 설정합니다.
-                            addCommentToBoard(boardId, 1, subject);
+                            addCommentToBoard(boardId, 1, subject, uPhoto);
                         }
                     }
                 })
@@ -275,7 +278,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                 });
     }
 
-    public void addCommentToBoard(String boardId, long nextDocumentId, String subject) {
+    public void addCommentToBoard(String boardId, long nextDocumentId, String subject, String uPhoto) {
         Comment comment = new Comment();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         // "Board" 컬렉션의 "boardId" 문서 참조
@@ -290,7 +293,8 @@ public class CommunityCommentActivity extends AppCompatActivity {
 
         String content = etACCWriteComment.getText().toString(); // 내용 가져오기
 
-        String photo = "https://firebasestorage.googleapis.com/v0/b/newpts-26161.appspot.com/o/profile.png?alt=media&token=b1f1cdfd-0932-4603-bc50-70428a419da6";
+        /*String photo = "https://firebasestorage.googleapis.com/v0/b/newpts-26161.appspot.com/o/profile.png?alt=media&token=b1f1cdfd-0932-4603-bc50-70428a419da bv 6";*/
+        String photo = uPhoto;
         comment.setR_idx((int) nextDocumentId);
         comment.setR_parent_idx((int) nextDocumentId);
         comment.setR_child_idx(0);
@@ -549,5 +553,27 @@ public class CommunityCommentActivity extends AppCompatActivity {
 
 
         alertDialog.show(); //대화상자 보이기
+    }
+
+    public void loadCurrentUserandWrite(int f_board_idx, String f_subject) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        db.collection("User")
+                .whereEqualTo("u_id", currentUser.getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String uPhoto = document.getString("u_photo");
+                            // u_photo 필드의 값(uPhoto)를 사용하거나 저장하세요.
+                            // 예를 들어, 이미지 뷰에 로드하는 등의 작업을 수행할 수 있습니다.
+                            saveCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, uPhoto);
+                        }
+
+                    } else {
+                        Log.e("TAG", "Error getting documents: ", task.getException());
+                    }
+                });
     }
 }
