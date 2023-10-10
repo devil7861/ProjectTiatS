@@ -91,11 +91,9 @@ public class ProfileEditActivity extends AppCompatActivity {
         ivAPEEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (selectedImageUri != null) {
-                    uploadImageToStorage(selectedImageUri);
-                } else {
-                    Toast.makeText(ProfileEditActivity.this, "이미지를 선택하세요", Toast.LENGTH_SHORT).show();
-                }
+
+                uploadImageToStorage(selectedImageUri);
+                Toast.makeText(ProfileEditActivity.this, "프로필을 수정했습니다", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -179,10 +177,53 @@ public class ProfileEditActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // 쓰기 성공
-                      Intent intent = new Intent(getApplicationContext(), TabLayoutActivity.class);
-                      intent.putExtra("sendData","ProfileEditActivity");
-                      startActivity(intent);
-                      finish();
+                        Intent intent = new Intent(getApplicationContext(), TabLayoutActivity.class);
+                        intent.putExtra("sendData", "ProfileEditActivity");
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 쓰기 실패
+                        Toast.makeText(ProfileEditActivity.this, "저장을 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void NoneupdateProfile() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        String name = etAPEUserName.getText().toString();
+        String phone = etAPEUserPhone.getText().toString();
+        String address1 = etAPEUserAddress1.getText().toString();
+        String address2 = etAPEUserAddress2.getText().toString();
+
+        if (name.isEmpty()) {
+            Toast.makeText(getApplication(), "이름은 필수 입력사항입니다", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> updateUser = new HashMap<>();
+        updateUser.put("u_name", name);
+        updateUser.put("u_phone", phone);
+        updateUser.put("u_address1", address1);
+        updateUser.put("u_address2", address2);
+
+        // "Board" 컬렉션에 사용자 정의 식별자를 가진 문서 추가
+        db.collection("User")
+                .document(tvAPEDocumentId.getText().toString())
+                .update(updateUser)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // 쓰기 성공
+                        Intent intent = new Intent(getApplicationContext(), TabLayoutActivity.class);
+                        intent.putExtra("sendData", "ProfileEditActivity");
+                        startActivity(intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -229,6 +270,8 @@ public class ProfileEditActivity extends AppCompatActivity {
                             Toast.makeText(ProfileEditActivity.this, "이미지 업로드 실패", Toast.LENGTH_SHORT).show();
                         }
                     });
+        } else {
+            NoneupdateProfile();
         }
     }
 }
