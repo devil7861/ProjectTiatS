@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +43,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProfileEditActivity extends AppCompatActivity {
 
@@ -73,6 +79,9 @@ public class ProfileEditActivity extends AppCompatActivity {
 
         ReadCurrentUserProfile();
         etAPEUserId.setEnabled(false);
+        addTextWatcherForMaxLength(etAPEUserName, 20);
+        /* addTextWatcherForMaxLength(etAPEUserPhone, 15);*/
+        checkPhoneNumber(etAPEUserPhone);
 
         btnAPEEditPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,5 +282,105 @@ public class ProfileEditActivity extends AppCompatActivity {
         } else {
             NoneupdateProfile();
         }
+    }
+
+    public void addTextWatcherForMaxLength(final EditText editText, final int maxLength) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (isNameCheck(charSequence.toString()) != false) {
+                    if (charSequence.length() >= maxLength) {
+                        editText.setError("최대 " + maxLength + "자까지 입력 가능합니다.");
+                        editText.setBackgroundResource(R.drawable.drawable_round_rectangle_stroke_solid_red);
+                        ivAPEEditProfile.setClickable(false);
+
+                    } else {
+                        editText.setError(null);
+                        TypedArray styledAttributes = getApplicationContext().getTheme().obtainStyledAttributes(
+                                new int[]{android.R.attr.editTextBackground});
+                        int editTextBackgroundResource = styledAttributes.getResourceId(0, 0);
+                        styledAttributes.recycle();
+
+                        // EditText의 배경 리소스를 기본 배경 리소스로 설정
+                        editText.setBackgroundResource(editTextBackgroundResource);
+                        ivAPEEditProfile.setClickable(true);
+                    }
+                } else {
+                    editText.setError("이름은 한글/영어로만 작성해주세요");
+                    editText.setBackgroundResource(R.drawable.drawable_round_rectangle_stroke_solid_red);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    public boolean isPhoneNumberCheck(String cellphoneNumber) {
+        boolean returnValue = false;
+        String regex = "^\\s*(010|011|012|013|014|015|016|017|018|019)(-|\\)|\\s)*(\\d{3,4})(-|\\s)*(\\d{4})\\s*$";
+        Pattern p = Pattern.compile(regex);
+
+        Matcher m = p.matcher(cellphoneNumber);
+
+        if (m.matches()) {
+            returnValue = true;
+        }
+
+        return returnValue;
+    }
+
+    public void checkPhoneNumber(final EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (TextUtils.isEmpty(charSequence) || isPhoneNumberCheck(charSequence.toString())) {
+                    editText.setError(null);
+                    TypedArray styledAttributes = getApplicationContext().getTheme().obtainStyledAttributes(
+                            new int[]{android.R.attr.editTextBackground});
+                    int editTextBackgroundResource = styledAttributes.getResourceId(0, 0);
+                    styledAttributes.recycle();
+
+                    // EditText의 배경 리소스를 기본 배경 리소스로 설정
+                    editText.setBackgroundResource(editTextBackgroundResource);
+                    ivAPEEditProfile.setClickable(true);
+                } else {
+                    editText.setError("휴대전화 번호 형식으로 입력해주세요");
+                    editText.setBackgroundResource(R.drawable.drawable_round_rectangle_stroke_solid_red);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    public boolean isNameCheck(String name) {
+        boolean returnValue = false;
+        String regex = "^[ㄱ-ㅎ가-힣a-zA-Z]+$";
+        Pattern p = Pattern.compile(regex);
+
+        Matcher m = p.matcher(name);
+
+        if (m.matches()) {
+            returnValue = true;
+        }
+
+        return returnValue;
     }
 }

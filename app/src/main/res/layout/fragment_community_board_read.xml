@@ -6,341 +6,285 @@
     android:layout_height="match_parent"
     tools:context=".CommunityFragment.CommunityBoardReadFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout5"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view22"
-        tools:context=".CommunityFragment.CommunityBoardReadFragment">
+        app:layout_constraintTop_toBottomOf="@+id/tvFCBRTitle">
 
-        <!-- CardView -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            tools:context=".CommunityFragment.CommunityBoardReadFragment">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvAPECardView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            app:cardCornerRadius="75dp"
-            app:cardElevation="4dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            <!-- CardView -->
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvAPECardView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="75dp"
+                app:cardElevation="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivFCBRWriterPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/default_profile_icon" />
+            </androidx.cardview.widget.CardView>
 
             <ImageView
-                android:id="@+id/ivFCBRWriterPhoto"
+                android:id="@+id/ivFCBRNoImg"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/noimg"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/layoutIndicators"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/sliderViewPager" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/sliderViewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@drawable/default_profile_icon" />
-        </androidx.cardview.widget.CardView>
+                android:layout_height="300dp"
+                android:layout_marginTop="10dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvAPECardView" />
 
-        <ImageView
-            android:id="@+id/ivFCBRNoImg"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/noimg"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/layoutIndicators"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sliderViewPager" />
+            <View
+                android:id="@+id/viewFadingEdge2"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/bg_fading_edge"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/sliderViewPager" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/sliderViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="10dp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cvAPECardView" />
+            <LinearLayout
+                android:id="@+id/layoutIndicators"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/sliderViewPager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <View
-            android:id="@+id/viewFadingEdge2"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/bg_fading_edge"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/sliderViewPager" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view21" />
 
-        <LinearLayout
-            android:id="@+id/layoutIndicators"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/sliderViewPager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <!-- 댓글 내용 -->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view21" />
+            <!-- 구분선 -->
 
-        <!-- 댓글 내용 -->
+            <View
+                android:id="@+id/view21"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:background="#C2C2C2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llFCBRHashtag" />
 
-        <!-- 구분선 -->
-
-        <View
-            android:id="@+id/view21"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
-            android:background="#C2C2C2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llFCBRHashtag" />
-
-        <!-- 사용자 정보 -->
-        <TextView
-            android:id="@+id/tvFCBRUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="asdasdasd"
-            android:textColor="#898989"
-            android:textSize="14dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvFCBWriterName"
-            app:layout_constraintStart_toEndOf="@+id/tvFCBWriterName" />
-
-        <!-- 뒤로 가기 버튼 -->
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="19dp"
-            android:layout_height="13dp"
-            android:layout_marginStart="20dp"
-            android:background="#00ff0000"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/back_icon" />
-
-        <!-- 뷰 구분선 -->
-
-        <!-- 프로필 이미지 -->
-
-        <!-- 본문 내용 -->
-        <TextView
-            android:id="@+id/tvFCBRContent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/sample_message"
-            android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="@+id/ibFCBRThumbsUp"
-            app:layout_constraintTop_toBottomOf="@+id/ibFCBRThumbsUp" />
-
-        <!-- 좋아요 버튼 -->
-        <ImageButton
-            android:id="@+id/ibFCBRThumbsUp"
-            android:layout_width="25dp"
-            android:layout_height="23dp"
-            android:background="#00ff0000"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
-            app:layout_constraintStart_toStartOf="@+id/cvAPECardView"
-            app:layout_constraintTop_toTopOf="@+id/imageButton3"
-            app:srcCompat="@drawable/heart" />
-
-        <!-- 댓글 버튼 -->
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="25dp"
-            android:layout_height="23dp"
-            android:layout_marginStart="15dp"
-            android:background="#00ff0000"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="@+id/tvFCBRThumsup"
-            app:layout_constraintStart_toEndOf="@+id/ibFCBRThumbsUp"
-            app:layout_constraintTop_toTopOf="@+id/tvFCBRThumsup"
-            app:srcCompat="@drawable/reply" />
-
-        <!-- 공유 버튼 -->
-        <ImageButton
-            android:id="@+id/imageButton4"
-            android:layout_width="25dp"
-            android:layout_height="23dp"
-            android:layout_marginStart="13dp"
-            android:background="#00ff0000"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
-            app:layout_constraintStart_toEndOf="@+id/imageButton3"
-            app:layout_constraintTop_toTopOf="@+id/imageButton3"
-            app:srcCompat="@drawable/share" />
-
-        <!-- 좋아요 개수 -->
-
-        <TextView
-            android:id="@+id/tvFCBRThumsup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
-            android:text="좋아요 122개"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imageButton4"
-            app:layout_constraintTop_toBottomOf="@+id/sliderViewPager" />
-
-        <!-- 해시태그 버튼 -->
-        <LinearLayout
-            android:id="@+id/llFCBRHashtag"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="25dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvFCBRContent">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button28"
+            <!-- 사용자 정보 -->
+            <TextView
+                android:id="@+id/tvFCBRUser"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/drawable_round_button_20_very_light_green"
-                android:text="#새싹"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="12dp"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="asdasdasd"
+                android:textColor="#898989"
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFCBWriterName"
+                app:layout_constraintStart_toEndOf="@+id/tvFCBWriterName" />
 
-        </LinearLayout>
+            <!-- 뒤로 가기 버튼 -->
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="19dp"
+                android:layout_height="13dp"
+                android:layout_marginStart="20dp"
+                android:background="#00ff0000"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/back_icon" />
 
-        <!-- 댓글 입력 레이아웃 -->
-
-        <!-- 댓글 전송 버튼 -->
-
-        <!-- 글 제목 -->
-
-        <!-- 작성 날짜 -->
-        <TextView
-            android:id="@+id/tvFCBRDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2023.09.03 11:00"
-            android:textSize="14dp"
-            app:layout_constraintStart_toStartOf="@+id/tvFCBWriterName"
-            app:layout_constraintTop_toBottomOf="@+id/tvFCBWriterName" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout8"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            <!-- 뷰 구분선 -->
 
             <!-- 프로필 이미지 -->
 
-            <!-- 댓글 입력란 -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center">
+            <!-- 본문 내용 -->
+            <TextView
+                android:id="@+id/tvFCBRContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/sample_message"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/ibFCBRThumbsUp"
+                app:layout_constraintTop_toBottomOf="@+id/ibFCBRThumbsUp" />
 
-                <View
-                    android:id="@+id/view23"
-                    android:layout_width="0dp"
-                    android:layout_height="2dp"
-                    android:background="#C2C2C2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <!-- 좋아요 버튼 -->
+            <ImageButton
+                android:id="@+id/ibFCBRThumbsUp"
+                android:layout_width="25dp"
+                android:layout_height="23dp"
+                android:background="#00ff0000"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
+                app:layout_constraintStart_toStartOf="@+id/cvAPECardView"
+                app:layout_constraintTop_toTopOf="@+id/imageButton3"
+                app:srcCompat="@drawable/heart" />
 
-                <TextView
-                    android:id="@+id/tvFCBRWriteComment"
-                    android:layout_width="265dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/drawable_register_round_button"
-                    android:gravity="center"
-                    android:inputType="text"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="테스트"
-                    android:textColor="#989090"
+            <!-- 댓글 버튼 -->
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="25dp"
+                android:layout_height="23dp"
+                android:layout_marginStart="15dp"
+                android:background="#00ff0000"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFCBRThumsup"
+                app:layout_constraintStart_toEndOf="@+id/ibFCBRThumbsUp"
+                app:layout_constraintTop_toTopOf="@+id/tvFCBRThumsup"
+                app:srcCompat="@drawable/reply" />
+
+            <!-- 공유 버튼 -->
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="25dp"
+                android:layout_height="23dp"
+                android:layout_marginStart="13dp"
+                android:background="#00ff0000"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
+                app:layout_constraintStart_toEndOf="@+id/imageButton3"
+                app:layout_constraintTop_toTopOf="@+id/imageButton3"
+                app:srcCompat="@drawable/share" />
+
+            <!-- 좋아요 개수 -->
+
+            <TextView
+                android:id="@+id/tvFCBRThumsup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:text="좋아요 122개"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imageButton4"
+                app:layout_constraintTop_toBottomOf="@+id/sliderViewPager" />
+
+            <!-- 해시태그 버튼 -->
+            <LinearLayout
+                android:id="@+id/llFCBRHashtag"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFCBRContent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/drawable_round_button_20_very_light_green"
+                    android:text="#새싹"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
                     android:textSize="12dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view23" />
+                    android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/imageView54"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/drawable_circle2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tvFCBRWriteComment"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/profile" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-        </LinearLayout>
+            <!-- 댓글 입력 레이아웃 -->
 
-        <ImageView
-            android:id="@+id/ivFCBRThumbsupDummy"
-            android:layout_width="25dp"
-            android:layout_height="23dp"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/heart"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton3"
-            app:layout_constraintTop_toTopOf="@+id/imageButton3" />
+            <!-- 댓글 전송 버튼 -->
 
-        <TextView
-            android:id="@+id/tvFCBRHits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="조회 40"
-            app:layout_constraintBottom_toBottomOf="@+id/tvFCBRDate"
-            app:layout_constraintStart_toEndOf="@+id/tvFCBRDate"
-            app:layout_constraintTop_toTopOf="@+id/tvFCBRDate" />
+            <!-- 글 제목 -->
 
-        <View
-            android:id="@+id/view20"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="#C2C2C2"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="3dp" />
+            <!-- 작성 날짜 -->
+            <TextView
+                android:id="@+id/tvFCBRDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2023.09.03 11:00"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="@+id/tvFCBWriterName"
+                app:layout_constraintTop_toBottomOf="@+id/tvFCBWriterName" />
 
-        <TextView
-            android:id="@+id/tvFCBWriterName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:text="TextView"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/cvAPECardView"
-            app:layout_constraintTop_toTopOf="@+id/cvAPECardView" />
+            <ImageView
+                android:id="@+id/ivFCBRThumbsupDummy"
+                android:layout_width="25dp"
+                android:layout_height="23dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/heart"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButton3"
+                app:layout_constraintEnd_toStartOf="@+id/imageButton3"
+                app:layout_constraintTop_toTopOf="@+id/imageButton3" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvFCBRHits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="조회 40"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFCBRDate"
+                app:layout_constraintStart_toEndOf="@+id/tvFCBRDate"
+                app:layout_constraintTop_toTopOf="@+id/tvFCBRDate" />
+
+            <View
+                android:id="@+id/view20"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="#C2C2C2"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="3dp" />
+
+            <TextView
+                android:id="@+id/tvFCBWriterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:text="TextView"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/cvAPECardView"
+                app:layout_constraintTop_toTopOf="@+id/cvAPECardView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <View
         android:id="@+id/view22"
@@ -411,5 +355,68 @@
         app:layout_constraintEnd_toStartOf="@+id/btnFCBRdelete"
         app:layout_constraintTop_toTopOf="@+id/btnFCBRdelete"
         app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout8"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 프로필 이미지 -->
+
+        <!-- 댓글 입력란 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <View
+                android:id="@+id/view23"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="#C2C2C2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvFCBRWriteComment"
+                android:layout_width="265dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/drawable_register_round_button"
+                android:gravity="center"
+                android:inputType="text"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="테스트"
+                android:textColor="#989090"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view23" />
+
+            <ImageView
+                android:id="@+id/imageView54"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/drawable_circle2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvFCBRWriteComment"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/profile" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
