@@ -111,26 +111,34 @@ public class EmailLoginActivity extends AppCompatActivity {
 
     public void loginUser(String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        firebaseAuth = FirebaseAuth.getInstance();
-                        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                        // 로그인 성공
-                        Toast.makeText(EmailLoginActivity.this, currentUser.getEmail() + "님 반갑습니다", Toast.LENGTH_SHORT).show();
-                        firebaseAuth.addAuthStateListener(firebaseAuthListener);
-                    } else {
-                        // 로그인 실패
-                        Toast.makeText(EmailLoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            firebaseAuth = FirebaseAuth.getInstance();
+                            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                            // 로그인 성공
+                            Toast.makeText(EmailLoginActivity.this, currentUser.getEmail() + "님 반갑습니다", Toast.LENGTH_SHORT).show();
+                            firebaseAuth.addAuthStateListener(firebaseAuthListener);
+                        } else {
+                            // 로그인 실패
+                            Toast.makeText(EmailLoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
-        firebaseAuthListener = firebaseAuth -> {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            if (user != null) {
-                startActivity(new Intent(EmailLoginActivity.this, TabLayoutActivity.class));
-                finish();
+
+        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    startActivity(new Intent(EmailLoginActivity.this, TabLayoutActivity.class));
+                    finish();
+                }
             }
         };
     }
+
 
     @Override
     protected void onStop() {

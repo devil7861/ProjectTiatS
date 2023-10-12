@@ -2,9 +2,11 @@ package com.jica.newpts.ProfileFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -17,15 +19,20 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,6 +41,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.jica.newpts.EmailLoginActivity;
 import com.jica.newpts.R;
 import com.jica.newpts.TabLayoutActivity;
 import com.jica.newpts.beans.Board;
@@ -50,12 +58,15 @@ public class ProfileEditActivity extends AppCompatActivity {
 
     private CardView cvAPECardView;
     private ImageView ivAPEProfilePhoto, ivAPEBackButton, ivAPEEditProfile;
-    private Button btnAPEEditPhoto;
+    private Button btnAPEEditPhoto, btnAPEModifyPassword;
     private static final int PICK_IMAGE_REQUEST = 1;
+    private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+    private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private EditText etAPEUserId, etAPEUserName, etAPEUserPhone, etAPEUserAddress1, etAPEUserAddress2;
     private Uri selectedImageUri; // 이미지를 저장할 변수
     TextView tvAPEDocumentId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +84,10 @@ public class ProfileEditActivity extends AppCompatActivity {
         etAPEUserAddress2 = findViewById(R.id.etAPEUserAddress2);
         ivAPEEditProfile = findViewById(R.id.ivAPEEditProfile);
         tvAPEDocumentId = findViewById(R.id.tvAPEDocumentId);
-
+        btnAPEModifyPassword = findViewById(R.id.btnAPEModifyPassword);
 
         db = FirebaseFirestore.getInstance(); // Firestore 초기화
+        firebaseAuth = FirebaseAuth.getInstance();
 
         ReadCurrentUserProfile();
         etAPEUserId.setEnabled(false);
@@ -105,6 +117,70 @@ public class ProfileEditActivity extends AppCompatActivity {
                 Toast.makeText(ProfileEditActivity.this, "프로필을 수정했습니다", Toast.LENGTH_SHORT).show();
             }
         });
+
+        btnAPEModifyPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileEditActivity.this);
+
+                //커스텀 대화상자의 화면구성을 전개한다.
+                //이전에 사용했던 방법 - LayoutInflater객체를 구하여 전개
+                // 1) getSystemService(LAYOUT_INFLATOR)
+                // 2) getLayoutInflator()
+                //현재의 예제에서는 전개(inflation)할때 View.inflate()메서드를 사용할 수 도 있다.
+                View dialogView = View.inflate(getApplicationContext(), R.layout.dialog_password, null);
+
+                //전개한 화면구성을 대화상자에 설정한다.
+                builder.setView(dialogView);
+                builder.setPositiveButton("완료", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText etDPPassword = dialogView.findViewById(R.id.etDPPassword);
+                        String password = etDPPassword.getText().toString();
+
+                        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+                        firebaseAuth.signInWithEmailAndPassword(currentUser.getEmail(), password)
+                                .addOnCompleteListener(ProfileEditActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            firebaseAuth = FirebaseAuth.getInstance();
+
+                                            firebaseAuth.addAuthStateListener(firebaseAuthListener);
+                                        } else {
+                                            // 로그인 실패
+                                            Snackbar.make(view, "비밀번호가 일치하지 않습니다", Snackbar.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
+                            @Override
+                            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+                                if (user != null) {
+                                    showDialog();
+                                }
+                            }
+                        };
+
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Snackbar.make(view, "비밀번호 변경을 취소하였습니다", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setCancelable(false);
+
+                AlertDialog alertDialog = builder.create();
+
+                alertDialog.show();
+            }
+
+        });
+
     }
 
     // 갤러리 열기
@@ -383,4 +459,66 @@ public class ProfileEditActivity extends AppCompatActivity {
 
         return returnValue;
     }
+
+    // 다이얼로그를 띄우는 함수
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileEditActivity.this);
+
+        //커스텀 대화상자의 화면구성을 전개한다.
+        //이전에 사용했던 방법 - LayoutInflater객체를 구하여 전개
+        // 1) getSystemService(LAYOUT_INFLATOR)
+        // 2) getLayoutInflator()
+        //현재의 예제에서는 전개(inflation)할때 View.inflate()메서드를 사용할 수 도 있다.
+        View dialogView = View.inflate(getApplicationContext(), R.layout.dialog_modify_password, null);
+
+        //전개한 화면구성을 대화상자에 설정한다.
+        builder.setView(dialogView);
+        builder.setPositiveButton("완료", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EditText etDMPassword1 = dialogView.findViewById(R.id.etDMPassword1);
+                String password1 = etDMPassword1.getText().toString();
+                EditText etDMPassword2 = dialogView.findViewById(R.id.etDMPassword2);
+                String password2 = etDMPassword2.getText().toString();
+                if (!password1.equals(password2)) {
+                    Toast.makeText(ProfileEditActivity.this, "비밀번호가 서로 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String newPassword = password1; // 새 비밀번호를 설정합니다.
+
+                user.updatePassword(newPassword)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(ProfileEditActivity.this, "비밀번호를 성공적으로 변경하였습니다", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // 비밀번호 변경에 실패한 경우
+                                    Exception e = task.getException();
+                                    // 오류 처리를 수행할 수 있습니다.
+                                    Toast.makeText(ProfileEditActivity.this, "비밀번호 변경에서 에러가 발생하였습니다", Toast.LENGTH_SHORT).show();
+                                    if (e != null) {
+                                        // 오류 메시지를 Logcat에 출력합니다.
+                                        Log.e("PasswordChangeError", e.getMessage());
+                                    }
+                                }
+                            }
+                        });
+
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Snackbar.make(dialogView, "비밀번호 변경을 취소하였습니다", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        builder.setCancelable(false);
+
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.show();
+    }
+
 }

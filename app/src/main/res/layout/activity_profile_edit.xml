@@ -228,7 +228,7 @@
             android:padding="2dp">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button31"
+                android:id="@+id/btnAPEModifyPassword"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
