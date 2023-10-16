@@ -128,7 +128,6 @@
         android:inputType="text"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="이미지"
         app:layout_constraintEnd_toEndOf="@+id/etAPEUserId"
         app:layout_constraintStart_toStartOf="@+id/etAPEUserId"
         app:layout_constraintTop_toBottomOf="@+id/textView60" />
@@ -170,9 +169,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="주소"
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:inputType="text|textLongMessage|textMultiLine"
+        android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="@+id/etAPEUserPhone"
         app:layout_constraintStart_toStartOf="@+id/textView59"
         app:layout_constraintTop_toBottomOf="@+id/textView101" />
@@ -185,8 +183,7 @@
         android:ems="10"
         android:hint="상세주소"
         android:inputType="text"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="@+id/etAPEUserAddress1"
         app:layout_constraintStart_toStartOf="@+id/etAPEUserAddress1"
         app:layout_constraintTop_toBottomOf="@+id/etAPEUserAddress1" />

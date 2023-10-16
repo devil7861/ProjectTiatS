@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.jica.newpts.ProfileFragment.MainActivity6;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button button27 = findViewById(R.id.button27);
+        button27.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity6.class);
+                startActivity(intent);
+            }
+        });
+
         videoView = findViewById(R.id.videoView);
 
         // VideoView에 동영상 파일 설정
@@ -82,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         videoView.start(); // 비디오 재생 시작
 
     }
+
 
     private boolean checkLoginStatus() {
         // Firebase Authentication 인스턴스를 가져옵니다.

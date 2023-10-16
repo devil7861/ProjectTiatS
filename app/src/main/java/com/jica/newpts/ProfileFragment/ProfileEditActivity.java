@@ -1,5 +1,7 @@
 package com.jica.newpts.ProfileFragment;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -180,6 +182,18 @@ public class ProfileEditActivity extends AppCompatActivity {
             }
 
         });
+
+        etAPEUserAddress1.setFocusable(false);
+        etAPEUserAddress1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 주소검색 웹뷰 화면으로 이동
+                Intent intent = new Intent(ProfileEditActivity.this, SearchActivity.class);
+                getSearchResult.launch(intent);
+
+            }
+        });
+
 
     }
 
@@ -521,4 +535,16 @@ public class ProfileEditActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private final ActivityResultLauncher<Intent> getSearchResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                // Search Activity 로부터의 결과 값이 이곳으로 전달된다.(setResult에 의해)
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        String data = result.getData().getStringExtra("data");//SearchActivity에서 보낸값
+                        etAPEUserAddress1.setText(data);
+                    }
+                }
+            }
+    );
 }

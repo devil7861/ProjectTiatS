@@ -1,45 +1,54 @@
 package com.jica.newpts.ProfileFragment;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.EditText;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.jica.newpts.R;
 
-import java.util.Arrays;
-import java.util.List;
-
-// MainActivity.java
-
 public class MainActivity6 extends AppCompatActivity {
-    // ...
 
-    private List<String> lunchMenus; // 메뉴 항목들
+    private EditText mEtAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main6);
 
-        // ...
-
-        lunchMenus = Arrays.asList("잡탕밥", "유산슬밥", "팔보채", "유린기", "쟁반짜장");
-
-        Button showDialogButton = findViewById(R.id.showDialogButton);
-        showDialogButton.setOnClickListener(new View.OnClickListener() {
+        mEtAddress = findViewById(R.id.et_address);
+        //block touch
+        mEtAddress.setFocusable(false);
+        mEtAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             /*   showSearchDialog();*/
-                SearchDialog dialog = new SearchDialog(MainActivity6.this, lunchMenus);
-                dialog.show();
+                // 주소검색 웹뷰 화면으로 이동
+                Intent intent = new Intent(MainActivity6.this, SearchActivity.class);
+                getSearchResult.launch(intent);
+
             }
         });
     }
 
-    private void showSearchDialog() {
-        SearchDialog dialog = new SearchDialog(this, lunchMenus);
-        dialog.show();
-    }
+    private final ActivityResultLauncher<Intent> getSearchResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                // Search Activity 로부터의 결과 값이 이곳으로 전달된다.(setResult에 의해)
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        String data = result.getData().getStringExtra("data");//SearchActivity에서 보낸값
+                        mEtAddress.setText(data);
+                    }
+                }
+            }
+    );
+
 }
