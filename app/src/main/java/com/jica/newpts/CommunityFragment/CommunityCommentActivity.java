@@ -103,6 +103,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             loadCurrentUserandSubWrite(f_board_idx, f_subject, Integer.valueOf(arrayList.get(position).getR_parent_idx()), reComment, r_level_idx, check_level);
                             /*saveSubCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, Integer.valueOf(arrayList.get(position).getR_parent_idx()), reComment, r_level_idx, check_level);*/
                             countComment(f_board_idx);
+                            viewHolder.btnLRIReCommentLayout.setVisibility(View.GONE);
                             viewHolder.btnLRIReCommentWrite.setText("");
                         }
                     });
@@ -298,7 +299,14 @@ public class CommunityCommentActivity extends AppCompatActivity {
         comment.setR_user(currentUser != null ? currentUser.getEmail() : ""); // currentUser가 null이 아닌지 확인 후 getEmail 호출
         comment.setR_date(date);
         comment.setR_profile_photo(photo);
-        comment.setR_check_level(String.valueOf(nextDocumentId));
+        // ----------------------------------------------------------
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date curruentdate = new Date(System.currentTimeMillis());
+        // 문자정렬때문에 10이 넘어가면 1,10,2,3,4,5,6,7,8,9로 바꿔서 구조변경
+        comment.setR_check_level(formatter.format(curruentdate).toString());
+
+        // ---------------------------------------------------------
+        /*  comment.setR_check_level(String.valueOf(nextDocumentId));*/
         comment.setR_name(uName);
 
         // 댓글 추가

@@ -72,8 +72,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     TextView tvUserId, tvFMCountMyBoard, tvSettingTest, tvFMLogout, llFMLinearLayoutMessage;
     public TextView tvFMCurrentTimne, tvFMCurrentDay;
     Button btnFMPlantRegister, btnFMPlantRegisterCancel, btnFMHamburger;
-    ConstraintLayout filter, loFMCommunity, loFMPlantManagement;
-    LinearLayout llFMLinearLayout, slidingPage01, slidingPage02, llFMMyBoard;
+    ConstraintLayout filter, loFMCommunity, loFMPlantManagement, slideingPageLayout, slidingPage01, slidingPage02;
+    LinearLayout llFMLinearLayout, llFMMyBoard;
 
     // Firebase 및 데이터
     private FirebaseAuth firebaseAuth;
@@ -135,6 +135,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         ivCancel = view.findViewById(R.id.ivCancel);
         loFMCommunity = view.findViewById(R.id.loFMCommunity);
         slidingPage01 = view.findViewById(R.id.slidingPage01);
+
         slidingPage02 = view.findViewById(R.id.slidingPage02);
         tvFMLogout = view.findViewById(R.id.tvFMLogout);
         tvSettingTest = view.findViewById(R.id.tvSettingTest);
@@ -211,6 +212,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         btnFMRefresh.setOnClickListener(this);
         llFMMyBoard.setOnClickListener(this);
         btnSelectPlant.setOnClickListener(this);
+
     }
 
     //애니메이션 리스너

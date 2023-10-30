@@ -120,7 +120,7 @@
                 android:background="#00ff0000"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:text="답글달기"
+                android:text="댓글달기"
                 android:textColor="#000000"
                 android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
