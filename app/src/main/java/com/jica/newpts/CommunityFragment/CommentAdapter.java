@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.jica.newpts.R;
 import com.jica.newpts.beans.Comment;
 
@@ -56,6 +58,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         if (arrayList.get(position).getR_user().equals(writer)) {
             holder.tvLRIcheckWritter.setVisibility(View.VISIBLE);
         }
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser.getEmail().equals(arrayList.get(position))) {
+            holder.btnLRIDelete.setVisibility(View.VISIBLE);
+        }
         // Timestamp형으로 저장된 시간을 여기서 쓸수 있게 string형으로 변환
         Timestamp timestamp = arrayList.get(position).getR_date();
         // Timestamp를 Date로 변환
@@ -74,6 +81,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         }
         holder.tvLRIMargineText.setText(marginRole);
         // --------------------------------------
+        // 댓글레벨이 일정수준에 이르면 댓글작성을 막는 부분
+        /*   if (arrayList.get(position).getR_level_idx() == 1) {
+            holder.tvLRICommentWrite.setVisibility(View.GONE);
+        }*/
         holder.tvLRIWriterName.setText(arrayList.get(position).getR_name());
     }
 
@@ -108,6 +119,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         TextView tvLRIMargineText;
         TextView tvLRIcheckWritter;
         TextView tvLRIWriterName;
+        Button btnLRIDelete;
 
 
         public CommentViewholder(@NonNull View itemView, final OnCommentItemClickListener listener) {
@@ -123,6 +135,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             this.tvLRIMargineText = itemView.findViewById(R.id.tvLRIMargineText);
             this.tvLRIcheckWritter = itemView.findViewById(R.id.tvLRIcheckWritter);
             this.tvLRIWriterName = itemView.findViewById(R.id.tvLRIWriterName);
+            this.btnLRIDelete = itemView.findViewById(R.id.btnLRIDelete);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
