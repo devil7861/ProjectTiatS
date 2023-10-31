@@ -126,6 +126,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLRIDelete"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:text="댓글삭제"
+                android:textSize="8dp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/tvLRICommentWrite"
+                app:layout_constraintEnd_toEndOf="@+id/tvLRICommentWrite"
+                app:layout_constraintStart_toStartOf="@+id/tvLRICommentWrite"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

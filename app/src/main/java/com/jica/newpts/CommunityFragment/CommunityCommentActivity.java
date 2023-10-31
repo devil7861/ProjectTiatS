@@ -299,6 +299,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
         comment.setR_user(currentUser != null ? currentUser.getEmail() : ""); // currentUser가 null이 아닌지 확인 후 getEmail 호출
         comment.setR_date(date);
         comment.setR_profile_photo(photo);
+        comment.setF_board_idx(Integer.valueOf(boardId));
         // ----------------------------------------------------------
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         Date curruentdate = new Date(System.currentTimeMillis());
@@ -448,6 +449,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
         comment.setR_date(date);
         comment.setR_profile_photo(Uphoto);
         comment.setR_name(Uname);
+        comment.setF_board_idx(Integer.valueOf(boardId));
         // --------------------------------------------
         String originalString = check_level;
 

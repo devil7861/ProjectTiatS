@@ -13,7 +13,8 @@ public class Comment {
     private String r_profile_photo;
     private String r_check_level;
     private String r_name;
-
+    private Boolean r_delete;
+    private int f_board_idx;
 
     public Comment() {
     }
@@ -108,6 +109,22 @@ public class Comment {
 
     public void setR_name(String r_name) {
         this.r_name = r_name;
+    }
+
+    public Boolean getR_delete() {
+        return r_delete;
+    }
+
+    public void setR_delete(Boolean r_delete) {
+        this.r_delete = r_delete;
+    }
+
+    public int getF_board_idx() {
+        return f_board_idx;
+    }
+
+    public void setF_board_idx(int f_board_idx) {
+        this.f_board_idx = f_board_idx;
     }
 
     @Override
