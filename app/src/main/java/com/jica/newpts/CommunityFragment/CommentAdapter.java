@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -25,6 +26,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewholder> implements OnCommentItemClickListener {
+
+    public interface OnItemDeleteClickListener {
+        void onDeleteClick(int position);
+    }
+
+    private OnItemDeleteClickListener deleteClickListener;
 
     OnCommentItemClickListener listener;
     private ArrayList<Comment> arrayList = new ArrayList<Comment>();
@@ -49,20 +56,30 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewholder holder, int position) {
-
+        int adapterPosition = holder.getAdapterPosition();
         Glide.with(holder.itemView)
                 .load(arrayList.get(position).getR_profile_photo())
                 .into(holder.ivLRIProfile);
-        holder.tvLRIContent.setText(arrayList.get(position).getR_content());// 숫자가 있으면 String.valueOf로 감싸줘야함
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (arrayList.get(position).getR_delete() != null && arrayList.get(position).getR_delete() != false) {
+            holder.tvLRIContent.setText("<삭제된 댓글입니다>");// 숫자가 있으면 String.valueOf로 감싸줘야함
+            if (currentUser.getEmail().equals(arrayList.get(position).getR_user())) {
+                holder.btnLRIDelete.setVisibility(View.GONE);
+            }
+        } else {
+            holder.tvLRIContent.setText(arrayList.get(position).getR_content());// 숫자가 있으면 String.valueOf로 감싸줘야함
+            if (currentUser.getEmail().equals(arrayList.get(position).getR_user())) {
+                holder.btnLRIDelete.setVisibility(View.VISIBLE);
+            }
+        }
+
         holder.tvLRIUser.setText(arrayList.get(position).getR_user());
         if (arrayList.get(position).getR_user().equals(writer)) {
             holder.tvLRIcheckWritter.setVisibility(View.VISIBLE);
         }
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser.getEmail().equals(arrayList.get(position))) {
-            holder.btnLRIDelete.setVisibility(View.VISIBLE);
-        }
+
+
         // Timestamp형으로 저장된 시간을 여기서 쓸수 있게 string형으로 변환
         Timestamp timestamp = arrayList.get(position).getR_date();
         // Timestamp를 Date로 변환
@@ -86,6 +103,19 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             holder.tvLRICommentWrite.setVisibility(View.GONE);
         }*/
         holder.tvLRIWriterName.setText(arrayList.get(position).getR_name());
+        holder.btnLRIDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (deleteClickListener != null) {
+                    deleteClickListener.onDeleteClick(adapterPosition);
+                }
+            }
+        });
+    }
+
+    // 추가: 클릭 이벤트 리스너 설정 메서드
+    public void setOnItemDeleteClickListener(OnItemDeleteClickListener listener) {
+        deleteClickListener = listener;
     }
 
     @Override
@@ -178,6 +208,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     }
                 }
             });
+
         }
 
 
@@ -200,4 +231,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         arrayList.set(position, item);
     }
 
+    public void changeStatus() {
+        subCommentLayoutOpen = true;
+    }
 }

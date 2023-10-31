@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -173,7 +172,6 @@ public class CommunityBoardReadFragment extends Fragment {
             Glide.with(requireContext())
                     .load(f_writer_photo)
                     .into(ivFCBRWriterPhoto);
-            Toast.makeText(requireContext(), f_content + "", Toast.LENGTH_SHORT).show();
             if (f_hashtag != null && !f_hashtag.isEmpty()) {
                 String[] hashTags = f_hashtag.split("#");
                 for (int i = 0; i < hashTags.length && i <= 3; i++) {

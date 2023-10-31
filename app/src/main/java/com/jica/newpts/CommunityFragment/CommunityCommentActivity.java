@@ -105,6 +105,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             countComment(f_board_idx);
                             viewHolder.btnLRIReCommentLayout.setVisibility(View.GONE);
                             viewHolder.btnLRIReCommentWrite.setText("");
+                            adapter.changeStatus();
                         }
                     });
                 } else {
@@ -112,7 +113,15 @@ public class CommunityCommentActivity extends AppCompatActivity {
                 }
             }
         });
+        adapter.setOnItemDeleteClickListener(new CommentAdapter.OnItemDeleteClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                String boardId = String.valueOf(arrayList.get(position).getF_board_idx());
+                String commentId = String.valueOf(arrayList.get(position).getR_idx());
 
+                deleteComment(boardId, commentId, f_subject);
+            }
+        });
 
         btnACCCommentRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -601,6 +610,27 @@ public class CommunityCommentActivity extends AppCompatActivity {
                     } else {
                         Log.e("TAG", "Error getting documents: ", task.getException());
                     }
+                });
+    }
+
+    public void deleteComment(String boardId, String commentId, String subject) {
+        DocumentReference boardRef = db.collection("Board").document(boardId);
+
+        // "Comment" 서브컬렉션 참조
+        DocumentReference commentCollectionRef = boardRef.collection("Comment").document(commentId);
+
+        // "Board" 컬렉션을 날짜 필드(f_date)를 기준으로 내림차순으로 정렬하고,
+        // 가장 첫 번째 문서를 가져와서 가장 최근 문서의 ID를 확인합니다.
+        commentCollectionRef
+                .update("r_delete", true)
+                .addOnSuccessListener(aVoid -> {
+                    // 업데이트 성공 시 처리
+                    Toast.makeText(this, "삭제완료", Toast.LENGTH_SHORT).show();
+                    loadComments(Integer.valueOf(boardId), subject);
+                })
+                .addOnFailureListener(e -> {
+                    // 업데이트 실패 시 처리
+                    // Toast.makeText(getActivity(), "다운로드 URL 업데이트 실패", Toast.LENGTH_SHORT).show();
                 });
     }
 }

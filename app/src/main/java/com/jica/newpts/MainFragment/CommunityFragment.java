@@ -157,6 +157,10 @@ public class CommunityFragment extends Fragment {
                             if (fSubjectCut.length() >= cutLength) {
                                 fSubjectCut = fSubjectCut.substring(0, cutLength) + "...";
                             }
+                            int cutLength2 = 16;
+                            if (fHashtag.length() >= cutLength2) {
+                                fHashtag = fHashtag.substring(0, cutLength2) + "...";
+                            }
 
                             if (fHashtag != null && fBoardInfoIdx != null && fSubject != null) {
                                 String combinedValue = fHashtag + "\n" + boardName + fSubjectCut;
