@@ -15,6 +15,7 @@ public class Comment {
     private String r_name;
     private Boolean r_delete;
     private int f_board_idx;
+    private String r_parent;
 
     public Comment() {
     }
@@ -125,6 +126,14 @@ public class Comment {
 
     public void setF_board_idx(int f_board_idx) {
         this.f_board_idx = f_board_idx;
+    }
+
+    public String getR_parent() {
+        return r_parent;
+    }
+
+    public void setR_parent(String r_parent) {
+        this.r_parent = r_parent;
     }
 
     @Override

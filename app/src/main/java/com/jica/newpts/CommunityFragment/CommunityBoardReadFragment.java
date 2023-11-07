@@ -746,7 +746,6 @@ public class CommunityBoardReadFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             int f_board_idx = bundle.getInt("f_board_idx");
-
             loadComments(f_board_idx);
             countComments(f_board_idx);
         }
@@ -809,8 +808,6 @@ public class CommunityBoardReadFragment extends Fragment {
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         // 다이얼로그가 나타날 때 배경을 반투명하게 설정
 
-
         alertDialog.show(); //대화상자 보이기
     }
-
 }

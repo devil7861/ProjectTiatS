@@ -80,7 +80,6 @@ public class CommunityBoard2Fragment extends Fragment {
 
         adapter = new BoardAdapter(arrayList, getActivity());
         recyclerView.setAdapter(adapter);
-
         adapter.setOnItemClickListener(new OnBoardItemClickListener() {
             @Override
             public void OnItemClick(BoardAdapter.BoardViewholder viewHolder, View view, int position) {

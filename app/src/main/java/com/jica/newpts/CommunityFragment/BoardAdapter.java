@@ -16,7 +16,6 @@ import com.google.firebase.Timestamp;
 import com.jica.newpts.R;
 import com.jica.newpts.beans.Board;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -49,7 +48,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardViewhol
                 .load(arrayList.get(position).getF_down_url())
                 .into(holder.ivLIProfile);
         holder.tvLISubject.setText(arrayList.get(position).getF_subject());// 숫자가 있으면 String.valueOf로 감싸줘야함
-        holder.tvLIUser.setText("<"+arrayList.get(position).getF_user()+">");
+        holder.tvLIUser.setText("<" + arrayList.get(position).getF_user() + ">");
         // Timestamp형으로 저장된 시간을 여기서 쓸수 있게 string형으로 변환
         Timestamp timestamp = arrayList.get(position).getF_date();
         // Timestamp를 Date로 변환

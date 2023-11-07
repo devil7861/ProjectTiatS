@@ -1,7 +1,14 @@
 package com.jica.newpts.CommunityFragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.icu.text.SimpleDateFormat;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -43,6 +49,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.arrayList = arrayList;
         this.context = context;
         this.writer = writer;
+
     }
 
     @NonNull
@@ -56,6 +63,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewholder holder, int position) {
+
+        if (context.toString().length() >= 33 && context.toString().substring(0, 33).equals("com.jica.newpts.TabLayoutActivity")) {
+            holder.tvLRICommentWrite.setVisibility(View.GONE);
+        } else {
+            holder.tvLRICommentWrite.setVisibility(View.VISIBLE);
+        }
+
         int adapterPosition = holder.getAdapterPosition();
         Glide.with(holder.itemView)
                 .load(arrayList.get(position).getR_profile_photo())
@@ -68,15 +82,35 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 holder.btnLRIDelete.setVisibility(View.GONE);
             }
         } else {
-            holder.tvLRIContent.setText(arrayList.get(position).getR_content());// 숫자가 있으면 String.valueOf로 감싸줘야함
+            if(arrayList.get(position).getR_parent() !=null) {
+                String content = arrayList.get(position).getR_parent() + arrayList.get(position).getR_content();
+                String parentName = arrayList.get(position).getR_parent();
+                SpannableString spannableString = new SpannableString(content); //객체 생성
+                int start = content.indexOf(parentName);
+                int end = start + parentName.length();
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FFC2C2C2")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+               spannableString.setSpan(new RelativeSizeSpan(0.9f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.tvLRIContent.setText(spannableString/*+arrayList.get(position).getR_content()*/);// 숫자가 있으면 String.valueOf로 감싸줘야함
+            }else{
+                holder.tvLRIContent.setText(arrayList.get(position).getR_content());// 숫자가 있으면 String.valueOf로 감싸줘야함
+            }
+
+
             if (currentUser.getEmail().equals(arrayList.get(position).getR_user())) {
-                holder.btnLRIDelete.setVisibility(View.VISIBLE);
+                if (context.toString().length() >= 33 && context.toString().substring(0, 33).equals("com.jica.newpts.TabLayoutActivity")) {
+                    holder.btnLRIDelete.setVisibility(View.GONE);
+                } else {
+                    holder.btnLRIDelete.setVisibility(View.VISIBLE);
+                }
             }
         }
 
         holder.tvLRIUser.setText(arrayList.get(position).getR_user());
         if (arrayList.get(position).getR_user().equals(writer)) {
             holder.tvLRIcheckWritter.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvLRIcheckWritter.setVisibility(View.GONE);
         }
 
 

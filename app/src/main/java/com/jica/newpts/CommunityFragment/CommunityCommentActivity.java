@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -70,6 +71,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
         btnACCCommentRegister = findViewById(R.id.btnACCCommentRegister);
 
         addTextWatcherForMaxLength(etACCWriteComment, 0);
+        tvACCSubject.setText(f_subject);
 
         recyclerView = findViewById(R.id.recyclerView_comment);
         recyclerView.setHasFixedSize(true);
@@ -95,17 +97,24 @@ public class CommunityCommentActivity extends AppCompatActivity {
                     viewHolder.btnLRIReCommentRegister.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            String parentName = arrayList.get(position).getR_name();
                             String reComment = viewHolder.btnLRIReCommentWrite.getText().toString();
                             String check_level = arrayList.get(position).getR_check_level();
 
                             int r_level_idx = arrayList.get(position).getR_level_idx();
-                            loadCurrentUserandSubWrite(f_board_idx, f_subject, Integer.valueOf(arrayList.get(position).getR_parent_idx()), reComment, r_level_idx, check_level);
+                            if(reComment.length()==0||reComment.isEmpty()||reComment==null){
+                                Snackbar.make(view,"댓글을 작성하려면 내용을 입력해주세요",Snackbar.LENGTH_SHORT).show();
+                                /*Toast.makeText(CommunityCommentActivity.this, "댓글을 작성하려면 내용을 입력해주세요", Toast.LENGTH_SHORT).show();*/
+                                return;
+                            }
+                            loadCurrentUserandSubWrite(f_board_idx, f_subject, Integer.valueOf(arrayList.get(position).getR_parent_idx()), reComment, r_level_idx, check_level,parentName);
                             /*saveSubCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, Integer.valueOf(arrayList.get(position).getR_parent_idx()), reComment, r_level_idx, check_level);*/
                             countComment(f_board_idx);
                             viewHolder.btnLRIReCommentLayout.setVisibility(View.GONE);
                             viewHolder.btnLRIReCommentWrite.setText("");
                             adapter.changeStatus();
+                            int targetPosition = position + 1; // 3번째 아이템은 인덱스 2로 표현됩니다 (0부터 시작)
+                            recyclerView.scrollToPosition(targetPosition);
                         }
                     });
                 } else {
@@ -130,6 +139,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                     loadCurrentUserandWrite(f_board_idx, f_subject);
 
                     countComment(f_board_idx);
+                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
                 } else {
                     requireLogin();
                 }
@@ -346,7 +356,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
     }
 
 
-    private void saveSubCommentDataWithNextDocumentId(String boardId, String subject, int parentIdx, String reComment, int r_level_idx, String check_level, String uPhoto, String Uname) {
+    private void saveSubCommentDataWithNextDocumentId(String boardId, String subject, int parentIdx, String reComment, int r_level_idx, String check_level, String uPhoto, String Uname,String parentName) {
         // "Board" 컬렉션에 대한 참조
         DocumentReference boardRef = db.collection("Board").document(boardId);
 
@@ -368,11 +378,11 @@ public class CommunityCommentActivity extends AppCompatActivity {
 
                             // 현재 문서 ID에 1을 더하여 다음 문서의 ID를 설정합니다.
                             long nextDocumentId = currentDocumentId + 1;
-                            saveSubCommentDataWithParentIdx(boardId, subject, nextDocumentId, parentIdx, reComment, r_level_idx, check_level, uPhoto, Uname);
+                            saveSubCommentDataWithParentIdx(boardId, subject, nextDocumentId, parentIdx, reComment, r_level_idx, check_level, uPhoto, Uname,parentName);
                         } else {
                             // Board 컬렉션에 문서가 없는 경우, ID를 1로 설정합니다.
                             long nextDocumentId = 1;
-                            saveSubCommentDataWithParentIdx(boardId, subject, 1, parentIdx, reComment, r_level_idx, check_level, uPhoto, Uname);
+                            saveSubCommentDataWithParentIdx(boardId, subject, 1, parentIdx, reComment, r_level_idx, check_level, uPhoto, Uname, parentName);
                         }
                     }
                 })
@@ -386,7 +396,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
 
     }
 
-    private void saveSubCommentDataWithParentIdx(String boardId, String subject, long documentId, int parentIdx, String reComment, int r_level_idx, String check_level, String Uphoto, String Uname) {
+    private void saveSubCommentDataWithParentIdx(String boardId, String subject, long documentId, int parentIdx, String reComment, int r_level_idx, String check_level, String Uphoto, String Uname,String parentName) {
         // "Board" 컬렉션에 대한 참조
         DocumentReference boardRef = db.collection("Board").document(boardId);
 
@@ -412,7 +422,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             long nextChildIdx = currentChildIdx + 1;
 
                             // 나머지 저장 로직 구현
-                            addSubCommentToBoard(boardId, documentId, subject, parentIdx, nextChildIdx, reComment, r_level_idx, check_level, Uphoto, Uname);
+                            addSubCommentToBoard(boardId, documentId, subject, parentIdx, nextChildIdx, reComment, r_level_idx, check_level, Uphoto, Uname,parentName);
                         } else {
                             long currentChildIdx = 0;
 
@@ -420,7 +430,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             long nextChildIdx = currentChildIdx + 1;
 
                             // 나머지 저장 로직 구현
-                            addSubCommentToBoard(boardId, documentId, subject, parentIdx, nextChildIdx, reComment, r_level_idx, check_level, Uphoto, Uname);
+                            addSubCommentToBoard(boardId, documentId, subject, parentIdx, nextChildIdx, reComment, r_level_idx, check_level, Uphoto, Uname,parentName);
                         }
                     }
                 })
@@ -434,7 +444,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                 });
     }
 
-    public void addSubCommentToBoard(String boardId, long nextDocumentId, String subject, int parentIdx, long childIdx, String reComment, int r_level_idx, String check_level, String Uphoto, String Uname) {
+    public void addSubCommentToBoard(String boardId, long nextDocumentId, String subject, int parentIdx, long childIdx, String reComment, int r_level_idx, String check_level, String Uphoto, String Uname,String parentName) {
         Comment comment = new Comment();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         // "Board" 컬렉션의 "boardId" 문서 참조
@@ -459,6 +469,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
         comment.setR_profile_photo(Uphoto);
         comment.setR_name(Uname);
         comment.setF_board_idx(Integer.valueOf(boardId));
+        comment.setR_parent(parentName);
         // --------------------------------------------
         String originalString = check_level;
 
@@ -590,7 +601,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                 });
     }
 
-    public void loadCurrentUserandSubWrite(int f_board_idx, String f_subject, int parent_idx, String reComment, int r_level_idx, String check_level) {
+    public void loadCurrentUserandSubWrite(int f_board_idx, String f_subject, int parent_idx, String reComment, int r_level_idx, String check_level,String parentName) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
@@ -604,7 +615,7 @@ public class CommunityCommentActivity extends AppCompatActivity {
                             String uName = document.getString("u_name");
                             // u_photo 필드의 값(uPhoto)를 사용하거나 저장하세요.
                             // 예를 들어, 이미지 뷰에 로드하는 등의 작업을 수행할 수 있습니다.
-                            saveSubCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, parent_idx, reComment, r_level_idx, check_level, uPhoto, uName);
+                            saveSubCommentDataWithNextDocumentId(String.valueOf(f_board_idx), f_subject, parent_idx, reComment, r_level_idx, check_level, uPhoto, uName,parentName);
                         }
 
                     } else {
