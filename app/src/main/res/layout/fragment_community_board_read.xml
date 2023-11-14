@@ -6,7 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".CommunityFragment.CommunityBoardReadFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Toolbar 추가 -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#00FFFFFF"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:visibility="gone"
+            app:titleTextColor="#00FFFFFF" />
+
+        <!-- 나머지 프래그먼트 레이아웃 요소들을 추가하세요. -->
+
+    </RelativeLayout>
+
     <ScrollView
+        android:id="@+id/scrollView4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
@@ -47,6 +71,7 @@
                 android:id="@+id/ivFCBRNoImg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/noimg"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/layoutIndicators"
@@ -269,8 +294,9 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:background="#C2C2C2"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="3dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvFCBWriterName"
@@ -285,16 +311,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <View
-        android:id="@+id/view22"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:background="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvFCBRSubject"
@@ -315,46 +331,20 @@
         android:layout_height="wrap_content"
         android:text="카운트저장소"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvFCBRTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginBottom="5dp"
+        android:text="게시판이름"
         android:textSize="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFCBRSubject" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnFCBRdelete"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/drawable_round_rectangle_stroke_solid_red"
-        android:text="삭제"
-        android:textColor="#FF0000"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout5"
-        app:layout_constraintEnd_toEndOf="@+id/view22"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnFCBRModify"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="3dp"
-        android:background="@drawable/drawable_round_rectangle_stroke_solid"
-        android:text="수정"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/btnFCBRdelete"
-        app:layout_constraintEnd_toStartOf="@+id/btnFCBRdelete"
-        app:layout_constraintTop_toTopOf="@+id/btnFCBRdelete"
-        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/linearLayout8"
