@@ -2,6 +2,11 @@ package com.jica.newpts.CommunityFragment;
 
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,13 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -213,7 +211,6 @@ public class SearchContentFragment extends Fragment {
                 bundle.putInt("hits", item.getHits() + 1);
                 fragment.setArguments(bundle);
 
-                Toast.makeText(getContext(), position + " 번째 항목데이타 " + item + " 항목을 클릭했습니다.", Toast.LENGTH_SHORT).show();
                 navigateToFragment(fragment);
             }
         });

@@ -64,7 +64,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(@NonNull CommentViewholder holder, int position) {
 
-        if (context.toString().length() >= 33 && context.toString().substring(0, 33).equals("com.jica.newpts.TabLayoutActivity")) {
+        if (context.toString().length() >= 33 && (context.toString().substring(0, 33).equals("com.jica.newpts.TabLayoutActivity")||context.toString().substring(0,33).equals("com.jica.newpts.CommunityFragment"))) {
             holder.tvLRICommentWrite.setVisibility(View.GONE);
         } else {
             holder.tvLRICommentWrite.setVisibility(View.VISIBLE);
@@ -82,23 +82,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 holder.btnLRIDelete.setVisibility(View.GONE);
             }
         } else {
-            if(arrayList.get(position).getR_parent() !=null) {
-                String content = arrayList.get(position).getR_parent() + arrayList.get(position).getR_content();
+            if (arrayList.get(position).getR_parent() != null) {
+                String content = arrayList.get(position).getR_parent()+" " + arrayList.get(position).getR_content();
                 String parentName = arrayList.get(position).getR_parent();
                 SpannableString spannableString = new SpannableString(content); //객체 생성
                 int start = content.indexOf(parentName);
                 int end = start + parentName.length();
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#FFC2C2C2")), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-               spannableString.setSpan(new RelativeSizeSpan(0.9f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new RelativeSizeSpan(0.9f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.tvLRIContent.setText(spannableString/*+arrayList.get(position).getR_content()*/);// 숫자가 있으면 String.valueOf로 감싸줘야함
-            }else{
+            } else {
                 holder.tvLRIContent.setText(arrayList.get(position).getR_content());// 숫자가 있으면 String.valueOf로 감싸줘야함
             }
 
 
             if (currentUser.getEmail().equals(arrayList.get(position).getR_user())) {
-                if (context.toString().length() >= 33 && context.toString().substring(0, 33).equals("com.jica.newpts.TabLayoutActivity")) {
+                if (context.toString().length() >= 33 && (context.toString().substring(0, 33).equals("com.jica.newpts.TabLayoutActivity")||context.toString().substring(0,33).equals("com.jica.newpts.CommunityFragment"))) {
                     holder.btnLRIDelete.setVisibility(View.GONE);
                 } else {
                     holder.btnLRIDelete.setVisibility(View.VISIBLE);

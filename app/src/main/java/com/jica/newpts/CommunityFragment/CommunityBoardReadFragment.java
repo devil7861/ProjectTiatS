@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,10 +16,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -28,6 +35,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -83,10 +91,9 @@ public class CommunityBoardReadFragment extends Fragment {
 
     private ImageSliderAdapter sliderAdapter;
     private ArrayList<String> sliderImageUrls = new ArrayList<>();
-    private Button btnFCBRdelete;
-    private Button btnFCBRModify;
-    boolean isProcessingClick = false; // 클릭 처리 중인지 여부를 나타내는 플래그
 
+    boolean isProcessingClick = false; // 클릭 처리 중인지 여부를 나타내는 플래그
+    private ActionBar actionBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,94 @@ public class CommunityBoardReadFragment extends Fragment {
         if (clFCTopMenu != null) {
             clFCTopMenu.setVisibility(View.GONE);
         }
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.board_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Bundle bundle = getArguments();
+        int id = item.getItemId();
+        if (bundle != null) {
+            int f_board_idx = bundle.getInt("f_board_idx");
+            String f_subject = bundle.getString("f_subject");
+            String f_user = bundle.getString("f_user");
+            String f_hashtag = bundle.getString("f_hashtag");
+            String f_content = bundle.getString("f_content");
+            int f_board_info_idx = bundle.getInt("f_board_indo_idx");
+            // 여기에서 각 메뉴 아이템에 대한 동작을 정의합니다.
+            // 글 수정부분
+            if (id == R.id.action_settings) {
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+                builder.setTitle("게시글 수정");
+                builder.setIcon(android.R.drawable.ic_dialog_alert); //안드로이드에서 제공하는 아이콘 이미지 사용
+                builder.setMessage("게시글을 수정하시겠습니까?");
+
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        CommunityBoardModifyFragment fragment = new CommunityBoardModifyFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("f_board_idx", f_board_idx);
+                        bundle.putString("f_subject", f_subject);
+                        bundle.putString("f_user", f_user);
+                        bundle.putString("f_content", f_content);
+                        bundle.putString("f_hashtag", f_hashtag);
+                        bundle.putInt("f_board_info_idx", f_board_info_idx);
+                        bundle.putStringArrayList("f_photo", sliderImageUrls);
+                        fragment.setArguments(bundle);
+
+                        navigateToFragment(fragment);
+                    }
+                });    //긍정 버튼 - BUTTON_POSITIVE (-1)
+                //builder.setNeutralButton("확인", null);   //확인 버튼 - BUTTON_NEUTRAL (-3)
+                builder.setNegativeButton("아니오", null); //부정 버튼 -  BUTTON_NEGATIVE (-2)
+
+                //대화상자가 보여진 이후에는 반드시 대화상자의 버튼으로만 대화상자가 종료하도록 한다.
+                builder.setCancelable(false);
+
+                //대화상자 만들기
+                androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+                // 다이얼로그가 나타날 때 배경을 반투명하게 설정
+                alertDialog.show(); //대화상자 보이기
+
+                return true;
+            } else if (id == R.id.action_about) {
+                // 글 삭제부분
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+                builder.setTitle("게시글 삭제");
+                builder.setIcon(android.R.drawable.ic_dialog_alert); //안드로이드에서 제공하는 아이콘 이미지 사용
+                builder.setMessage("게시글을 삭제하시겠습니까?");
+
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteBoard(f_board_idx);
+                    }
+                });    //긍정 버튼 - BUTTON_POSITIVE (-1)
+                //builder.setNeutralButton("확인", null);   //확인 버튼 - BUTTON_NEUTRAL (-3)
+                builder.setNegativeButton("아니오", null); //부정 버튼 -  BUTTON_NEGATIVE (-2)
+
+                //대화상자가 보여진 이후에는 반드시 대화상자의 버튼으로만 대화상자가 종료하도록 한다.
+                builder.setCancelable(false);
+
+                //대화상자 만들기
+                androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+                // 다이얼로그가 나타날 때 배경을 반투명하게 설정
+
+
+                alertDialog.show(); //대화상자 보이기
+
+                return true;
+
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -123,13 +218,19 @@ public class CommunityBoardReadFragment extends Fragment {
         layoutIndicator = view.findViewById(R.id.layoutIndicators);
         ivFCBRNoImg = view.findViewById(R.id.ivFCBRNoImg);
         tvFCBRTitle = view.findViewById(R.id.tvFCBRTitle);
-        btnFCBRdelete = view.findViewById(R.id.btnFCBRdelete);
-        btnFCBRModify = view.findViewById(R.id.btnFCBRModify);
         tvFCBWriterName = view.findViewById(R.id.tvFCBWriterName);
         ivFCBRWriterPhoto = view.findViewById(R.id.ivFCBRWriterPhoto);
 
         sliderViewPager.setOffscreenPageLimit(1);
+        // -------------------------------------------------------------------
+        // 옵션메뉴(수정/삭제)부분
+        setHasOptionsMenu(true); // 프래그먼트에서 옵션 메뉴 사용을 활성화합니다.
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
 
+        // 액션바 가져오기
+        actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        // -------------------------------------------------------------------
 
         if (bundle != null) {
             int f_board_idx = bundle.getInt("f_board_idx");
@@ -310,42 +411,10 @@ public class CommunityBoardReadFragment extends Fragment {
 
             if (currentUser != null) {
                 if (currentUser.getEmail().toString().equals(f_user)) {
-                    btnFCBRdelete.setVisibility(View.VISIBLE);
-                    btnFCBRModify.setVisibility(View.VISIBLE);
+
+                    toolbar.setVisibility(View.VISIBLE);
                 }
             }
-            btnFCBRdelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
-                    builder.setTitle("게시글 삭제");
-                    builder.setIcon(android.R.drawable.ic_dialog_alert); //안드로이드에서 제공하는 아이콘 이미지 사용
-                    builder.setMessage("게시글을 삭제하시겠습니까?");
-
-                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            deleteBoard(f_board_idx);
-                        }
-                    });    //긍정 버튼 - BUTTON_POSITIVE (-1)
-                    //builder.setNeutralButton("확인", null);   //확인 버튼 - BUTTON_NEUTRAL (-3)
-                    builder.setNegativeButton("아니오", null); //부정 버튼 -  BUTTON_NEGATIVE (-2)
-
-                    //대화상자가 보여진 이후에는 반드시 대화상자의 버튼으로만 대화상자가 종료하도록 한다.
-                    builder.setCancelable(false);
-
-                    //대화상자 만들기
-                    androidx.appcompat.app.AlertDialog alertDialog = builder.create();
-                    // 다이얼로그가 나타날 때 배경을 반투명하게 설정
-
-
-                    alertDialog.show(); //대화상자 보이기
-
-
-                }
-            });
-
 
             // Firebase Storage에서 이미지 URL을 가져오는 메서드 호출
             loadSliderImagesFromFirebaseStorage(f_photo);
@@ -366,44 +435,6 @@ public class CommunityBoardReadFragment extends Fragment {
             }
 
             setupIndicators(sliderImageUrls.size());
-
-            btnFCBRModify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
-                    builder.setTitle("게시글 수정");
-                    builder.setIcon(android.R.drawable.ic_dialog_alert); //안드로이드에서 제공하는 아이콘 이미지 사용
-                    builder.setMessage("게시글을 수정하시겠습니까?");
-
-                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            CommunityBoardModifyFragment fragment = new CommunityBoardModifyFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("f_board_idx", f_board_idx);
-                            bundle.putString("f_subject", f_subject);
-                            bundle.putString("f_user", f_user);
-                            bundle.putString("f_content", f_content);
-                            bundle.putString("f_hashtag", f_hashtag);
-                            bundle.putInt("f_board_info_idx", f_board_info_idx);
-                            bundle.putStringArrayList("f_photo", sliderImageUrls);
-                            fragment.setArguments(bundle);
-
-                            navigateToFragment(fragment);
-                        }
-                    });    //긍정 버튼 - BUTTON_POSITIVE (-1)
-                    //builder.setNeutralButton("확인", null);   //확인 버튼 - BUTTON_NEUTRAL (-3)
-                    builder.setNegativeButton("아니오", null); //부정 버튼 -  BUTTON_NEGATIVE (-2)
-
-                    //대화상자가 보여진 이후에는 반드시 대화상자의 버튼으로만 대화상자가 종료하도록 한다.
-                    builder.setCancelable(false);
-
-                    //대화상자 만들기
-                    androidx.appcompat.app.AlertDialog alertDialog = builder.create();
-                    // 다이얼로그가 나타날 때 배경을 반투명하게 설정
-                    alertDialog.show(); //대화상자 보이기
-                }
-            });
         }
     }
 

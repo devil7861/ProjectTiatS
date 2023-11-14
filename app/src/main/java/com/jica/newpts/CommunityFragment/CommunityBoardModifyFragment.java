@@ -105,8 +105,8 @@ public class CommunityBoardModifyFragment extends Fragment {
         etFCWHashtag = view.findViewById(R.id.etFCWHashtag);
         btnFCWWrite = view.findViewById(R.id.btnFCWWrite);
 
-        countSelectedPhoto(etFCWSubject, 20);
-        countSelectedPhoto(etFCWContent, 2000);
+        countCharacterNumber(etFCWSubject, 20);
+        countCharacterNumber(etFCWContent, 2000);
 
         // --------------------------------------------------------------
         // Firebase Storage 초기화
@@ -117,7 +117,7 @@ public class CommunityBoardModifyFragment extends Fragment {
         uploadButton = view.findViewById(R.id.uploadButton);
         photoRecyclerView = view.findViewById(R.id.photoRecyclerView);
         selectedImageCountTextView = view.findViewById(R.id.selectedImageCountTextView); // TextView 초기화
-        countSelectedPhoto(selectedImageCountTextView,maxSelectableCount);
+        countCharacterNumber(selectedImageCountTextView,maxSelectableCount);
         if (bundle != null) {
             int f_board_idx = bundle.getInt("f_board_idx");
             String f_subject = bundle.getString("f_subject");
@@ -278,7 +278,7 @@ public class CommunityBoardModifyFragment extends Fragment {
                 if (selectedImageUris.size() == maxSelectableCount) {
                     selectImagesButton.setVisibility(View.GONE);
                 }
-                countSelectedPhoto(selectedImageCountTextView, maxSelectableCount);
+                countCharacterNumber(selectedImageCountTextView, maxSelectableCount);
                 // ------------------------------------------------------------------------
             }
         }
@@ -353,7 +353,7 @@ public class CommunityBoardModifyFragment extends Fragment {
         selectedImageCountTextView.setText(countText);
     }
 
-    public void countSelectedPhoto(final TextView textView, final int maxLength) {
+    public void countCharacterNumber(final TextView textView, final int maxLength) {
         textView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -582,7 +582,7 @@ public class CommunityBoardModifyFragment extends Fragment {
         });
     }
 
-    public void countSelectedPhoto(final EditText editText, final int maxLength) {
+    public void countCharacterNumber(final EditText editText, final int maxLength) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

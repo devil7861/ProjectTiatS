@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:text="가지"
             android:textAlignment="center"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:textStyle="bold" />
 
         <TextView
@@ -62,7 +62,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="test@test.com"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="12dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

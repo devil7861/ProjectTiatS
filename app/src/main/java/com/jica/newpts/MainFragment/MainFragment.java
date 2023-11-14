@@ -222,7 +222,15 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             //슬라이드 열기->닫기
             if (isPageOpen) {
                 btnFMHamburger.setVisibility(View.VISIBLE);
-                slidingPage01.setVisibility(View.INVISIBLE);
+                // -----------------------------------------------
+                // slidingPage01이 gone이될때 자동으로 하위내용도 gone으로 바꾸는 부분
+                // slidingPage01 레이아웃 내의 모든 하위 뷰를 순회하며 GONE으로 설정
+                for (int i = 0; i < slidingPage01.getChildCount(); i++) {
+                    View childView = slidingPage01.getChildAt(i);
+                    childView.setVisibility(View.GONE);
+                }
+                // -----------------------------------------------
+                /*        slidingPage01.setVisibility(View.GONE);*/
                 btnFMPlantRegister.setClickable(true);
                 isPageOpen = false;
             }
@@ -253,7 +261,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
             //슬라이드 열기->닫기
             if (isPageOpenUpDown) {
-                slidingPage02.setVisibility(View.INVISIBLE);
+                // slidingPage02 레이아웃 내의 모든 하위 뷰를 순회하며 GONE으로 설정
+                for (int i = 0; i < slidingPage02.getChildCount(); i++) {
+                    View childView = slidingPage02.getChildAt(i);
+                    childView.setVisibility(View.GONE);
+                }
+
+                /*    slidingPage02.setVisibility(View.GONE);*/
 
                 btnFMPlantRegister.setClickable(true);
 
@@ -408,6 +422,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         //열기
         else {
             filter.setVisibility(View.VISIBLE);
+            // ------------------------------------------------------------------
+            // slidingPage01이 gone이될때 자동으로 하위내용도 gone으로 바꾸는 부분
+            // slidingPage01 레이아웃 내의 모든 하위 뷰를 순회하며 GONE으로 설정
+            for (int i = 0; i < slidingPage01.getChildCount(); i++) {
+                View childView = slidingPage01.getChildAt(i);
+                childView.setVisibility(View.VISIBLE);
+            }
+            // -------------------------------------------------------------------
             slidingPage01.setVisibility(View.VISIBLE);
             slidingPage01.startAnimation(translateLeftAnim);
         }
@@ -425,6 +447,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         else {
             btnFMHamburger.setClickable(false);
             btnFMPlantRegister.setClickable(false);
+            // slidingPage02 레이아웃 내의 모든 하위 뷰를 순회하며 GONE으로 설정
+            for (int i = 0; i < slidingPage02.getChildCount(); i++) {
+                View childView = slidingPage02.getChildAt(i);
+                childView.setVisibility(View.VISIBLE);
+            }
             slidingPage02.setVisibility(View.VISIBLE);
             slidingPage02.startAnimation(translateDownAnim);
         }

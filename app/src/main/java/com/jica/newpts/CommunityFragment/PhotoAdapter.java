@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.jica.newpts.R;
 
 import java.util.List;
@@ -48,6 +49,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
         // 이미지뷰에 이미지 설정
         holder.photoImageView.setImageURI(photoUri);
+        // 수정부분에서 이미지를 휴대폰에 저장하고 사용하는 방식이 아니라 데이터베이스에서 가져오는 방식을 사용하면
+        // 기존 이미지를 로드할때 리사이클러뷰에 이미지가 선택은 되지만 보이지가 않는다 그걸 방지하기 위해서 아래의 방식을 사용하면 됨
+        // 현재 사용한 방식은 아래의 방식으로 수정을 안해도 잘 작동하므로 일부러 수정을 안함(수정해도 돌아감)
+        /*Glide.with(holder.itemView)
+                .load(photoUri)
+                .into(holder.photoImageView);*/
 
         // "X" 버튼 클릭 이벤트 처리
         holder.removeImageView.setOnClickListener(new View.OnClickListener() {

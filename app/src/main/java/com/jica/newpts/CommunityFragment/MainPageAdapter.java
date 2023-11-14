@@ -69,7 +69,16 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.MainPa
                 break;
         }
         holder.tvLMIBoardName.setText(boardName);// 숫자가 있으면 String.valueOf로 감싸줘야함
-        holder.tvLMISubject.setText(arrayList.get(position).getF_subject());
+
+        if(arrayList.get(position).getF_subject().length()>=15){
+            holder.tvLMISubject.setText(arrayList.get(position).getF_subject().substring(0,13)+"...");
+        }else{
+            holder.tvLMISubject.setText(arrayList.get(position).getF_subject());
+        }
+
+
+
+
         holder.tvLMIUser.setText(arrayList.get(position).getF_user());
 
     }
